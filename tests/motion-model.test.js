@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { clamp, getLayerTravel, getMotionProfile, getVelocitySignal } from "../js/motion-model.js";
+import { clamp, getLayerTravel, getMotionProfile } from "../js/motion-model.js";
 import {
   DEFAULT_MOTION_PREFERENCES,
   normalizeMotionPreferences,
@@ -74,11 +74,3 @@ test("motion preferences normalize unknown persisted values", () => {
   assert.deepEqual(normalizeMotionPreferences(null), DEFAULT_MOTION_PREFERENCES);
 });
 
-
-test("velocity signal is signed, bounded, and profile-scaled", () => {
-  assert.equal(getVelocitySignal(0, 1), 0);
-  assert.equal(getVelocitySignal(2600, 1), 1);
-  assert.equal(getVelocitySignal(-2600, 1), -1);
-  assert.equal(getVelocitySignal(5200, 1), 1);
-  assert.equal(getVelocitySignal(1300, 0.5), 0.25);
-});

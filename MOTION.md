@@ -108,6 +108,3 @@ Two decorative shutters sit above the night artwork and behind the semantic copy
 
 Aurora ribbons keep their independent CSS drift frequencies. ScrollTrigger controls only their opacity entrance, so scroll choreography and ambient time-based drift do not compete over the same transform property.
 
-### Velocity atmosphere
-
-ScrollTrigger's velocity signal is normalized and bounded before it reaches decorative layers. Full motion receives the complete subtle response, compact motion receives the already-reduced profile intensity, and reduced motion skips the adapter.

@@ -218,18 +218,6 @@ system + user signals
 The diagram is authored as normal HTML content. GSAP only adds a one-shot reveal for normal-motion profiles; reduced-motion users receive the complete static architecture immediately. The visualization therefore cannot become a second source of architectural truth.
 
 
-## Atmosphere adapter
-
-`js/atmosphere.js` is intentionally separate from narrative scroll choreography. It consumes ScrollTrigger velocity and maps it through the pure, bounded `getVelocitySignal()` rule.
-
-Only decorative environment layers respond:
-
-- mist bands shift a few percent;
-- the mist orb scales subtly;
-- the aurora background scales by at most a small fraction.
-
-A `scrollEnd` reset returns all atmosphere transforms to their authored baseline. Reduced motion bypasses the adapter entirely.
-
 ## Native scroll-progress enhancement
 
 The document progress bar prefers CSS `animation-timeline: scroll()` when supported. Because current browser support is not universal, `scene-compass.js` retains its requestAnimationFrame-coalesced JavaScript progress calculation as fallback. Navigation and active-scene semantics do not depend on either implementation.

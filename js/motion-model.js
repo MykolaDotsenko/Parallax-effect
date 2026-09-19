@@ -57,9 +57,3 @@ export function getLayerTravel(depth, intensity = 1) {
   return (1 - safeDepth) * 12 * safeIntensity;
 }
 
-
-export function getVelocitySignal(velocity, intensity = 1) {
-  const safeVelocity = clamp(Number(velocity) || 0, -2600, 2600);
-  const safeIntensity = clamp(Number(intensity) || 0, 0, 1.25);
-  return (safeVelocity / 2600) * safeIntensity;
-}
