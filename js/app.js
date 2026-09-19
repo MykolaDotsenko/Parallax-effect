@@ -82,7 +82,7 @@ function start() {
       cleanupHeader();
       cleanupCompass();
       cleanupMotion();
-          cleanupPointer();
+      cleanupPointer();
       motionLab?.cleanup();
       reducedMotionQuery.removeEventListener("change", onMediaChange);
       coarsePointerQuery.removeEventListener("change", onMediaChange);
