@@ -36,9 +36,12 @@ Core parallax adapter:
 
 - reads `data-depth` from authored forest layers;
 - keeps native browser scroll as the only position source;
+- uses a short CSS-sticky viewport as a bounded parallax runway, not a custom scroll engine;
 - coalesces scroll work through one `requestAnimationFrame`;
-- writes one compositor-friendly `transform` string directly for cross-browser consistency;
-- uses the pure motion model for bounded depth compensation;
+- maps far / middle / near to signed transform travel so the strata separate in opposite directions;
+- promotes the existing ground artwork to a fourth foreground plane with stronger upward travel;
+- owns hero-copy/cue fading so the identity-defining interaction stays independent from GSAP;
+- writes compositor-friendly `transform` strings directly for cross-browser consistency;
 - returns an explicit cleanup function.
 
 This keeps the project's identity-defining effect independent from GSAP/ScrollTrigger.

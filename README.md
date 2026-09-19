@@ -11,10 +11,10 @@ Nordic Depths rebuilds an early parallax exercise into a focused interaction-eng
 ## Why this project is interesting
 
 - **Native scrolling stays authoritative.** There is no custom scroll engine.
-- **Parallax is declarative and native.** Each visual layer exposes depth as data; a requestAnimationFrame-coalesced native-scroll adapter maps that value into bounded travel.
+- **Parallax is declarative, native, and deliberately legible.** A short sticky hero runway lets far / middle / near strata separate visibly while native scroll remains authoritative; the existing ground artwork becomes a fourth foreground plane.
 - **Motion is progressive enhancement.** The complete narrative remains readable without GSAP or JavaScript.
 - **Reduced motion is a first-class product path.** Spatial movement is removed instead of merely slowed down.
-- **Mobile gets lower motion intensity.** Coarse-pointer devices avoid pointer parallax and use shorter reveal travel.
+- **Mobile gets lower motion intensity.** Coarse-pointer devices use a shorter hero runway, lower depth amplitude, and no pointer parallax.
 - **The visual source assets remain full quality.** Performance work targets loading behavior, compositing, code, and future payload growth rather than degrading the artwork.
 - **Only transform and opacity are animated by the scroll system.**
 - **No React, Three.js, UI kit, state library, or runtime application framework.**
