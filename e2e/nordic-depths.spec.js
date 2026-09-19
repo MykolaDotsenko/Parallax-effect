@@ -100,7 +100,7 @@ test("desktop primary navigation reaches the experience", async ({ page }, testI
   await page.goto("/");
   await page.locator("#extension").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.body.classList.contains("extension-active"));
-  await page.getByRole("link", { name: "Experience", exact: true }).click();
+  await page.getByRole("link", { name: "Story", exact: true }).click();
   await expect(page.locator("#xray")).toBeInViewport();
 });
 
@@ -111,7 +111,7 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
   await page.locator("#extension").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Experience", exact: true })).toBeHidden();
+  await expect(page.getByRole("link", { name: "Story", exact: true })).toBeHidden();
 });
 
 test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
