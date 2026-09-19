@@ -41,10 +41,12 @@ export function initHeroParallax(profile) {
   render();
 
   window.addEventListener("scroll", schedule, { passive: true });
+  document.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", onResize, { passive: true });
 
   return () => {
     window.removeEventListener("scroll", schedule);
+    document.removeEventListener("scroll", schedule);
     window.removeEventListener("resize", onResize);
     if (frame) window.cancelAnimationFrame(frame);
     layers.forEach((layer) => { layer.style.transform = "translate3d(0, 0%, 0) scale(1.03)"; });
