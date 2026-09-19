@@ -321,8 +321,16 @@ a {
   align-items: center;
   overflow: clip;
   background:
-    radial-gradient(circle at 72% 20%, rgb(124 227 189 / 11%), transparent 28rem),
-    radial-gradient(circle at 18% 78%, rgb(137 167 255 / 9%), transparent 30rem),
+    radial-gradient(
+      circle at calc(72% + var(--pointer-x)) calc(20% + var(--pointer-y)),
+      rgb(124 227 189 / 11%),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at calc(18% - var(--pointer-x)) calc(78% - var(--pointer-y)),
+      rgb(137 167 255 / 9%),
+      transparent 30rem
+    ),
     #07110f;
 }
 
@@ -870,14 +878,6 @@ code {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  html.js .hero {
-    min-height: 100svh;
-  }
-
-  .hero__viewport {
-    position: relative;
   }
 
   *,
