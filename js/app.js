@@ -40,20 +40,28 @@ function syncMotion() {
   cleanupPointer = initPointerDepth(profile);
 }
 
-const cleanupHeader = initHeader();
-syncMotion();
+function start() {
+  const cleanupHeader = initHeader();
+  syncMotion();
 
-reducedMotionQuery.addEventListener("change", syncMotion);
-coarsePointerQuery.addEventListener("change", syncMotion);
+  reducedMotionQuery.addEventListener("change", syncMotion);
+  coarsePointerQuery.addEventListener("change", syncMotion);
 
-window.addEventListener(
-  "pagehide",
-  () => {
-    cleanupHeader();
-    cleanupMotion();
-    cleanupPointer();
-    reducedMotionQuery.removeEventListener("change", syncMotion);
-    coarsePointerQuery.removeEventListener("change", syncMotion);
-  },
-  { once: true },
-);
+  window.addEventListener(
+    "pagehide",
+    () => {
+      cleanupHeader();
+      cleanupMotion();
+      cleanupPointer();
+      reducedMotionQuery.removeEventListener("change", syncMotion);
+      coarsePointerQuery.removeEventListener("change", syncMotion);
+    },
+    { once: true },
+  );
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", start, { once: true });
+} else {
+  start();
+}
