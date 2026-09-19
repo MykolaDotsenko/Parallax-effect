@@ -99,6 +99,7 @@ export function initMotionLab({
   toggle.hidden = false;
   dialog.hidden = false;
   syncControls();
+  if (systemReadout) systemReadout.textContent = systemReduced ? "On" : "Off";
 
   toggle.addEventListener("click", openDialog);
   close?.addEventListener("click", closeDialog);
