@@ -69,9 +69,9 @@ This preserves the original visual behavior while avoiding the old ScrollSmoothe
 
 ## Extension boundary
 
-`#extension` is the handoff from the historical experience to Nordic Depths Extended.
+`#extension` is the narrative handoff from the historical experience into the same idea applied to modern product and engineering decisions.
 
-The fixed brand/header, Scene Compass, progress indicator, and Motion Lab are hidden while the historical sequence is active. `app.js` activates that chrome only when the extension approaches the viewport.
+The fixed brand/header, Scene Compass, progress indicator, and Motion Lab are hidden while the historical sequence is active. `app.js` activates that chrome only when the continuation approaches the viewport. The user-facing scene names intentionally follow one story: Layers → Focus → Rhythm → Craft → Structure → Outcome.
 
 With JavaScript disabled, the chrome remains available instead of becoming inaccessible.
 

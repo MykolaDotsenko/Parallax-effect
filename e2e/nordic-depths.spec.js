@@ -90,7 +90,7 @@ test("the preserved original flows into the Nordic Depths extension", async ({ p
   await page.goto("/");
   const extension = page.locator("#extension");
   await extension.scrollIntoViewIfNeeded();
-  await expect(page.getByRole("heading", { name: "The original stays. The system grows below." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The same idea grew with me." })).toBeVisible();
   await expect(page.locator("body")).toHaveClass(/extension-active/);
 });
 
@@ -100,7 +100,7 @@ test("desktop primary navigation reaches the experience", async ({ page }, testI
   await page.goto("/");
   await page.locator("#extension").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.body.classList.contains("extension-active"));
-  await page.getByRole("link", { name: "Experience", exact: true }).click();
+  await page.getByRole("link", { name: "Story", exact: true }).click();
   await expect(page.locator("#xray")).toBeInViewport();
 });
 
@@ -111,7 +111,7 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
   await page.locator("#extension").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Experience", exact: true })).toBeHidden();
+  await expect(page.getByRole("link", { name: "Story", exact: true })).toBeHidden();
 });
 
 test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
@@ -138,7 +138,7 @@ test("system scene exposes the architecture as readable content", async ({ page 
   const system = page.locator("#system");
   await system.scrollIntoViewIfNeeded();
 
-  await expect(page.getByRole("heading", { name: "One model. Bounded adapters." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Simple parts. Clear boundaries." })).toBeVisible();
   await expect(system.locator("[data-system-node]")).toHaveCount(5);
   await expect(system.getByText("getMotionProfile()", { exact: true })).toBeVisible();
 });
