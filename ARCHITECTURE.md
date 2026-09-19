@@ -40,8 +40,8 @@ The historical sequence is not driven by Motion Lab and does not depend on GSAP.
 
 The top of `index.html` contains the original two-part experience:
 
-1. layered forest with the original Finnish hero copy;
-2. dungeon scene with the original Finnish introduction.
+1. layered forest with the original 2023 composition and current Finnish portfolio copy;
+2. dungeon scene with the original composition and an updated current introduction.
 
 The artwork is the same source artwork committed in 2023.
 
@@ -190,7 +190,7 @@ Protects:
 
 - metadata and canonical URL;
 - semantic main and exactly one H1;
-- the original Finnish hero;
+- the current Finnish portfolio hero;
 - exact `/1.6`, `/2.5`, `/5.7`, and `/-7.5` CSS contracts;
 - reduced-motion and forced-colors CSS;
 - original source artwork and payload budget.
