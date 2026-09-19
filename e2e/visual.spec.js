@@ -9,7 +9,9 @@ async function waitForImages(page) {
         if (image.complete && image.naturalWidth > 0) {
           try {
             await image.decode();
-          } catch {}
+          } catch {
+            // A loaded image may still reject decode(); rendering can safely continue.
+          }
           return;
         }
 
@@ -20,7 +22,9 @@ async function waitForImages(page) {
 
         try {
           await image.decode();
-        } catch {}
+        } catch {
+          // Decode failure is non-blocking because load/error has already settled.
+        }
       }),
     );
   });
