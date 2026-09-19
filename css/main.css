@@ -1384,7 +1384,7 @@ html.js .scene--xray {
 
 @media (max-width: 520px) {
   html.js .scene--xray {
-    min-height: 150svh;
+    min-height: 165svh;
   }
 
   .xray__copy h2 {
@@ -1392,13 +1392,15 @@ html.js .scene--xray {
   }
 
   .xray__copy > p:last-child {
-    font-size: 0.92rem;
+    max-width: 96%;
+    font-size: 0.88rem;
+    line-height: 1.6;
   }
 
   .xray__stage {
-    top: 45%;
+    top: 54%;
     right: 4%;
-    bottom: 12%;
+    bottom: 16%;
     width: 92%;
   }
 
@@ -1408,7 +1410,7 @@ html.js .scene--xray {
 
   .xray__legend {
     right: 4%;
-    bottom: 5vh;
+    bottom: 78px;
     left: 4%;
     justify-content: center;
   }
