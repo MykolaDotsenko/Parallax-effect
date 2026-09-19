@@ -37,6 +37,12 @@ test("desktop scene compass follows the current scene", async ({ page }, testInf
   await expect(page.locator('[data-scene-link="xray"]')).toHaveAttribute("aria-current", "step");
 });
 
+test("hero entry cue reaches the X-Ray scene", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Reveal the layers" }).click();
+  await expect(page.locator("#xray")).toBeInViewport();
+});
+
 test("desktop primary navigation reaches the experience", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile-chromium", "Mobile intentionally uses a compact nav");
 
