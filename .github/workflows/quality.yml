@@ -1,0 +1,39 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm install --ignore-scripts
+      - run: npm run check
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm install --ignore-scripts
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:e2e
+      - name: Upload visual preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nordic-depths-visual-preview
+          path: visual-artifacts/*.png
+          if-no-files-found: warn
+          retention-days: 7
