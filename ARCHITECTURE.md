@@ -37,7 +37,7 @@ Core parallax adapter:
 - reads `data-depth` from authored forest layers;
 - keeps native browser scroll as the only position source;
 - coalesces scroll work through one `requestAnimationFrame`;
-- writes only the `--parallax-y` transform variable;
+- writes one compositor-friendly `transform` string directly for cross-browser consistency;
 - uses the pure motion model for bounded depth compensation;
 - returns an explicit cleanup function.
 
