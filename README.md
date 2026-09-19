@@ -11,7 +11,7 @@ Nordic Depths rebuilds an early parallax exercise into a focused interaction-eng
 ## Why this project is interesting
 
 - **Native scrolling stays authoritative.** There is no custom scroll engine.
-- **Parallax is declarative.** Each visual layer exposes depth as data; the motion adapter maps that value into bounded travel.
+- **Parallax is declarative and native.** Each visual layer exposes depth as data; a requestAnimationFrame-coalesced native-scroll adapter maps that value into bounded travel.
 - **Motion is progressive enhancement.** The complete narrative remains readable without GSAP or JavaScript.
 - **Reduced motion is a first-class product path.** Spatial movement is removed instead of merely slowed down.
 - **Mobile gets lower motion intensity.** Coarse-pointer devices avoid pointer parallax and use shorter reveal travel.
@@ -81,8 +81,8 @@ index.html
                │
         ┌──────┴────────┐
         ▼               ▼
- js/motion.js     js/pointer-depth.js
- GSAP adapter      pointer adapter
+ js/hero-parallax.js   js/motion.js   js/pointer-depth.js
+ native scroll adapter   GSAP scenes      pointer adapter
         │               │
         └──────┬────────┘
                ▼
@@ -173,6 +173,7 @@ The browser suite verifies the experience in Chromium, Firefox, and WebKit, incl
 ├── img/
 ├── js/
 │   ├── app.js
+│   ├── hero-parallax.js
 │   ├── motion-lab.js
 │   ├── motion-model.js
 │   ├── motion-preferences.js

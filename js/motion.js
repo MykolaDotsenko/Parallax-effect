@@ -1,5 +1,3 @@
-import { getLayerTravel } from "./motion-model.js";
-
 export function initScrollMotion(profile) {
   const { gsap, ScrollTrigger } = window;
 
@@ -10,21 +8,6 @@ export function initScrollMotion(profile) {
   gsap.registerPlugin(ScrollTrigger);
   const context = gsap.context(() => {
     const hero = document.querySelector('[data-scene="forest"]');
-
-    document.querySelectorAll("[data-parallax-layer]").forEach((layer) => {
-      const travel = getLayerTravel(layer.dataset.depth, profile.scrollIntensity);
-
-      gsap.to(layer, {
-        yPercent: travel,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    });
 
     const heroCopy = document.querySelector("[data-hero-copy]");
     if (heroCopy) {

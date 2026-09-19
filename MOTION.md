@@ -62,11 +62,15 @@ The browser remains the only scroll authority. This preserves predictable anchor
 
 ## Why GSAP
 
-ScrollTrigger is used where scroll-linked sequencing provides real value:
+The core forest parallax intentionally does **not** use ScrollTrigger. It uses native scroll position, one requestAnimationFrame-coalesced adapter, and the pure bounded depth model.
 
-- layered hero depth;
+ScrollTrigger is reserved for secondary choreography where sequencing provides real value:
+
 - hero copy fade/travel;
-- night image drift;
+- X-Ray layer sequence;
+- night image drift and shutters;
+- System reveal;
+- Aurora build;
 - one-shot content reveals.
 
 The rest of the visual system is CSS.

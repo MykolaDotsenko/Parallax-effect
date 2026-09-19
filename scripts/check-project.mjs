@@ -6,6 +6,7 @@ const requiredFiles = [
   "index.html",
   "css/main.css",
   "js/app.js",
+  "js/hero-parallax.js",
   "js/motion-model.js",
   "js/motion.js",
   "js/pointer-depth.js",

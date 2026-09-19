@@ -30,14 +30,26 @@ Pure functions only:
 
 It imports nothing and can be tested by Node without a DOM.
 
+### `js/hero-parallax.js`
+
+Core parallax adapter:
+
+- reads `data-depth` from authored forest layers;
+- keeps native browser scroll as the only position source;
+- coalesces scroll work through one `requestAnimationFrame`;
+- writes only the `--parallax-y` transform variable;
+- uses the pure motion model for bounded depth compensation;
+- returns an explicit cleanup function.
+
+This keeps the project's identity-defining effect independent from GSAP/ScrollTrigger.
+
 ### `js/motion.js`
 
-GSAP adapter:
+GSAP adapter for secondary choreography:
 
 - registers ScrollTrigger;
-- reads `data-depth` from authored layers;
-- applies transform/opacity timelines;
-- owns reveal and night-scene scroll orchestration;
+- applies transform/opacity timelines to X-Ray, Night, System, Aurora, and reveals;
+- does not own the core forest parallax;
 - returns an explicit cleanup function.
 
 If GSAP is unavailable, the page remains static and readable.
