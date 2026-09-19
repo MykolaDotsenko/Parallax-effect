@@ -7,7 +7,7 @@ test("renders the complete narrative without page errors or horizontal overflow"
 
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { level: 1, name: /kerron sinulle vähän itsestäni/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /rakennan toimivia digitaalisia tuotteita/i })).toBeVisible();
 
   const xrayHeading = page.locator("#xray-title");
   await xrayHeading.scrollIntoViewIfNeeded();
