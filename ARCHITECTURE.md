@@ -63,16 +63,19 @@ Composition root:
 
 ## State ownership
 
-There is no durable application state.
+Most runtime state is ephemeral presentation state:
 
-The only runtime state is ephemeral presentation state:
-
-- current media preference;
+- current system media preference;
 - current pointer-derived light offset;
 - GSAP timeline progress;
-- sticky-header threshold.
+- active scene and sticky-header threshold.
 
-No state is persisted because the product has nothing meaningful to persist.
+Two explicit user preferences are durable because they materially change the experience:
+
+- Motion Lab profile override;
+- bounded depth scale.
+
+They are normalized before use and persisted locally. No narrative content or scroll position is persisted.
 
 ## Scroll model
 
@@ -196,3 +199,20 @@ This persistence is meaningful user state, unlike the transient animation state 
 ### Depth X-Ray
 
 The X-Ray scene duplicates no source artwork. It references the same cached forest assets and uses transform/opacity-only ScrollTrigger choreography to separate and recompose the strata.
+
+
+## Visible system scene
+
+The on-page System scene is a semantic representation of the same dependency rule described in this document:
+
+```text
+system + user signals
+        ↓
+  pure motion model
+        ↓
+ scroll / pointer adapters
+        ↓
+    semantic DOM
+```
+
+The diagram is authored as normal HTML content. GSAP only adds a one-shot reveal for normal-motion profiles; reduced-motion users receive the complete static architecture immediately. The visualization therefore cannot become a second source of architectural truth.

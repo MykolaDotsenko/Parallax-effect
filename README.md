@@ -35,13 +35,13 @@ Engineering principles
 Aurora / final statement
 ```
 
-The six scenes form one continuous narrative rather than a collection of disconnected animation demos.
+The seven scenes form one continuous narrative rather than a collection of disconnected animation demos.
 
 ### v3 interaction layer
 
 - **Depth X-Ray** reuses the real forest assets and temporarily separates far / middle / near strata so the authored depth model becomes visible.
 - **Scene Compass** turns the long-form page into a legible six-stage expedition while preserving native anchor navigation.
-- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.
+- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.\n- **System** turns the dependency graph into a semantic on-page architecture map instead of hiding the engineering story in documentation.
 - The controls modify the real experience. There is no separate toy preview or duplicated motion implementation.
 
 ## Runtime stack
@@ -170,9 +170,12 @@ The browser suite verifies the experience in Chromium, Firefox, and WebKit, incl
 ├── img/
 ├── js/
 │   ├── app.js
+│   ├── motion-lab.js
 │   ├── motion-model.js
+│   ├── motion-preferences.js
 │   ├── motion.js
-│   └── pointer-depth.js
+│   ├── pointer-depth.js
+│   └── scene-compass.js
 ├── libs/gsap/
 ├── scripts/
 │   ├── check-project.mjs

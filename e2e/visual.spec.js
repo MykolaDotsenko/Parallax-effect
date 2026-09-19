@@ -79,7 +79,7 @@ test("capture visual preview", async ({ page }, testInfo) => {
   await captureScene(page, "#xray", `visual-artifacts/${prefix}-xray.png`);
   await captureScene(page, "#mist", `visual-artifacts/${prefix}-depth.png`);
   await captureScene(page, '[data-scene="night"]', `visual-artifacts/${prefix}-night.png`);
-  await captureScene(page, "#principles", `visual-artifacts/${prefix}-principles.png`);
+  await captureScene(page, "#principles", `visual-artifacts/${prefix}-principles.png`);\n  await captureScene(page, "#system", `visual-artifacts/${prefix}-system.png`);
   await captureScene(page, '[data-scene="aurora"]', `visual-artifacts/${prefix}-aurora.png`);
 
   await page.emulateMedia({ reducedMotion: "reduce" });
