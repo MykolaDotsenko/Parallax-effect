@@ -66,7 +66,6 @@ The core forest parallax intentionally does **not** use ScrollTrigger. It uses n
 
 ScrollTrigger is reserved for secondary choreography where sequencing provides real value:
 
-- hero copy fade/travel;
 - X-Ray layer sequence;
 - night image drift and shutters;
 - System reveal;
