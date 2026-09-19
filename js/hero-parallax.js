@@ -2,7 +2,7 @@ import { clamp, getLayerTravel } from "./motion-model.js";
 
 const LAYER_SCALE = 1.035;
 const FOREGROUND_START = 28;
-const FOREGROUND_TRAVEL = 26;
+const FOREGROUND_TRAVEL = 34;
 
 export function initHeroParallax(profile) {
   const hero = document.querySelector('[data-scene="forest"]');
