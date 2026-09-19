@@ -62,6 +62,7 @@ test("capture visual preview", async ({ page }, testInfo) => {
   await page.goto("/");
   await decodeImages(page, '.hero img:not([loading="lazy"])');
   await expect(page.getByRole("heading", { level: 1, name: /nordic depths/i })).toBeVisible();
+  await page.waitForTimeout(1100);
 
   await page.screenshot({
     path: `visual-artifacts/${prefix}-hero.png`,

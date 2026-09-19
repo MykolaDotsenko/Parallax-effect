@@ -41,6 +41,14 @@ test("desktop scene compass follows the current scene", async ({ page }, testInf
   await expect(page.locator('[data-scene-link="xray"]')).toHaveAttribute("aria-current", "step");
 });
 
+test("hero title remains two readable semantic lines", async ({ page }) => {
+  await page.goto("/");
+  const title = page.locator("#hero-title");
+
+  await expect(title.locator(".hero-title__line")).toHaveCount(2);
+  await expect(title).toHaveText(/Nordic\s*Depths/i);
+});
+
 test("hero entry cue reaches the X-Ray scene", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Reveal the layers" }).click();

@@ -1765,3 +1765,79 @@ html[data-motion="reduced"] .system-connector {
     opacity: 0.24;
   }
 }
+
+
+/* v6 — first-impression typography */
+.hero-title__mask {
+  display: block;
+  overflow: clip;
+  padding-block: 0.035em;
+  margin-block: -0.035em;
+}
+
+.hero-title__line {
+  display: block;
+  will-change: transform;
+}
+
+@keyframes hero-title-enter {
+  from {
+    transform: translate3d(0, 112%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hero-copy-enter {
+  from {
+    transform: translate3d(0, 16px, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-title__line {
+    transform: translate3d(0, 112%, 0);
+    animation: hero-title-enter 920ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .hero-title__mask:nth-child(2) .hero-title__line {
+    animation-delay: 90ms;
+  }
+
+  .hero__eyebrow,
+  .hero__lead--intro,
+  .scroll-cue {
+    opacity: 0;
+    animation: hero-copy-enter 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .hero__eyebrow {
+    animation-delay: 260ms;
+  }
+
+  .hero__lead--intro {
+    animation-delay: 390ms;
+  }
+
+  .scroll-cue {
+    animation-delay: 560ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title__line,
+  .hero__eyebrow,
+  .hero__lead--intro,
+  .scroll-cue {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
