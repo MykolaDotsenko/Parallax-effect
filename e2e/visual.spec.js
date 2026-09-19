@@ -68,6 +68,14 @@ test("capture visual preview", async ({ page }, testInfo) => {
     fullPage: false,
   });
 
+  await page.getByRole("button", { name: "Motion Lab" }).click();
+  await page.waitForTimeout(180);
+  await page.screenshot({
+    path: `visual-artifacts/${prefix}-motion-lab.png`,
+    fullPage: false,
+  });
+  await page.getByRole("button", { name: "Close Motion Lab" }).click();
+
   await captureScene(page, "#xray", `visual-artifacts/${prefix}-xray.png`);
   await captureScene(page, "#mist", `visual-artifacts/${prefix}-depth.png`);
   await captureScene(page, '[data-scene="night"]', `visual-artifacts/${prefix}-night.png`);
