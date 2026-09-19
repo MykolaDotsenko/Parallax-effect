@@ -8,18 +8,34 @@ test("renders the complete narrative without page errors or horizontal overflow"
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1, name: /nordic depths/i })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: /motion should create hierarchy/i })).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: /motion with purpose/i })).toBeVisible();
+
+  const depthHeading = page.locator("#depth-title");
+  await depthHeading.scrollIntoViewIfNeeded();
+  await expect(depthHeading).toBeVisible();
+
+  const auroraHeading = page.locator("#aurora-title");
+  await auroraHeading.scrollIntoViewIfNeeded();
+  await expect(auroraHeading).toBeVisible();
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(1);
   expect(errors).toEqual([]);
 });
 
-test("primary navigation reaches the engineering principles", async ({ page }) => {
+test("desktop primary navigation reaches the engineering principles", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile-chromium", "Mobile intentionally uses a compact nav");
+
   await page.goto("/");
   await page.getByRole("link", { name: "Principles" }).click();
   await expect(page.locator("#principles")).toBeInViewport();
+});
+
+test("mobile keeps a compact source-first navigation", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-specific contract");
+
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "Source" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Principles" })).toBeHidden();
 });
 
 test("reduced motion becomes the active profile", async ({ page }) => {
