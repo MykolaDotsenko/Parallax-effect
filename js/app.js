@@ -134,13 +134,14 @@ function start() {
     "pagehide",
     () => {
       cleanupHeader();
+      cleanupExtensionChrome();
       cleanupCompass();
       cleanupMotion();
-      cleanupHeroParallax();
+      cleanupOriginalParallax();
       cleanupPointer();
       motionLab?.cleanup();
-      reducedMotionQuery.removeEventListener("change", onMediaChange);
-      coarsePointerQuery.removeEventListener("change", onMediaChange);
+      reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
+      coarsePointerQuery.removeEventListener("change", onPointerChange);
     },
     { once: true },
   );
