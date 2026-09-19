@@ -9,6 +9,10 @@ test("renders the complete narrative without page errors or horizontal overflow"
 
   await expect(page.getByRole("heading", { level: 1, name: /nordic depths/i })).toBeVisible();
 
+  const xrayHeading = page.locator("#xray-title");
+  await xrayHeading.scrollIntoViewIfNeeded();
+  await expect(xrayHeading).toBeVisible();
+
   const depthHeading = page.locator("#depth-title");
   await depthHeading.scrollIntoViewIfNeeded();
   await expect(depthHeading).toBeVisible();
@@ -22,12 +26,23 @@ test("renders the complete narrative without page errors or horizontal overflow"
   expect(errors).toEqual([]);
 });
 
-test("desktop primary navigation reaches the engineering principles", async ({ page }, testInfo) => {
+test("desktop scene compass follows the current scene", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile-chromium", "Desktop compass is intentionally hidden on mobile");
+
+  await page.goto("/");
+  const xray = page.locator("#xray");
+  await xray.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(250);
+
+  await expect(page.locator('[data-scene-link="xray"]')).toHaveAttribute("aria-current", "step");
+});
+
+test("desktop primary navigation reaches the experience", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile-chromium", "Mobile intentionally uses a compact nav");
 
   await page.goto("/");
-  await page.getByRole("link", { name: "Principles" }).click();
-  await expect(page.locator("#principles")).toBeInViewport();
+  await page.getByRole("link", { name: "Experience" }).click();
+  await expect(page.locator("#xray")).toBeInViewport();
 });
 
 test("mobile keeps a compact source-first navigation", async ({ page }, testInfo) => {
@@ -35,10 +50,20 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
 
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Principles" })).toBeHidden();
+  await expect(page.getByRole("link", { name: "Experience" })).toBeHidden();
 });
 
-test("reduced motion becomes the active profile", async ({ page }) => {
+test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Motion Lab" }).click();
+  await page.getByLabel("Reduced").check();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+});
+
+test("reduced system motion becomes the active profile when no override is stored", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");

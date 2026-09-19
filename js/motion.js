@@ -41,6 +41,68 @@ export function initScrollMotion(profile) {
       });
     }
 
+    const xray = document.querySelector('[data-scene="xray"]');
+    if (xray) {
+      const far = xray.querySelector('[data-xray-layer="far"]');
+      const mid = xray.querySelector('[data-xray-layer="mid"]');
+      const near = xray.querySelector('[data-xray-layer="near"]');
+      const specs = xray.querySelectorAll("[data-xray-spec]");
+      const compact = profile.mode === "compact";
+
+      const xrayTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: xray,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+        },
+      });
+
+      xrayTimeline
+        .to(
+          far,
+          {
+            xPercent: compact ? -10 : -48,
+            yPercent: compact ? -16 : -4,
+            scale: compact ? 0.78 : 0.68,
+            rotation: compact ? -0.5 : -1.4,
+            ease: "power2.inOut",
+          },
+          0,
+        )
+        .to(mid, { scale: compact ? 0.8 : 0.72, ease: "power2.inOut" }, 0)
+        .to(
+          near,
+          {
+            xPercent: compact ? 10 : 48,
+            yPercent: compact ? 16 : 4,
+            scale: compact ? 0.78 : 0.68,
+            rotation: compact ? 0.5 : 1.4,
+            ease: "power2.inOut",
+          },
+          0,
+        )
+        .fromTo(
+          specs,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, stagger: 0.04, duration: 0.16, ease: "power2.out" },
+          0.12,
+        )
+        .to(
+          [far, mid, near],
+          {
+            xPercent: 0,
+            yPercent: 0,
+            scale: 1,
+            rotation: 0,
+            duration: 0.34,
+            ease: "power2.inOut",
+          },
+          0.66,
+        )
+        .to(specs, { opacity: 0.72, duration: 0.2 }, 0.72);
+    }
+
     const nightImage = document.querySelector("[data-night-image]");
     if (nightImage) {
       gsap.fromTo(

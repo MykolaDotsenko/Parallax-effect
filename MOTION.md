@@ -74,3 +74,20 @@ The rest of the visual system is CSS.
 ## Cleanup
 
 Every adapter returns a cleanup function. The composition root runs cleanup before changing motion profiles and on `pagehide`, preventing duplicate listeners and timelines.
+
+
+## Motion Lab overrides
+
+The default is `system`, so OS/user media preferences continue to select the profile automatically.
+
+Motion Lab can explicitly select full / compact / reduced for inspection. This is a deliberate user action and is persisted locally. The depth slider multiplies bounded scroll intensity from 0.5× to 1.25×; reduced mode always resolves spatial intensity to zero.
+
+## X-Ray choreography
+
+The X-Ray sequence has three phases:
+
+1. composed forest strata;
+2. exploded far / middle / near transforms with visible authored depth values;
+3. recomposition before the next narrative scene.
+
+On coarse pointers the separation is primarily vertical and lower amplitude. Reduced motion leaves the static composed view and depth legend intact.

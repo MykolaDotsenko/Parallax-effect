@@ -163,3 +163,36 @@ Validate:
 - reduced-motion and forced-color CSS;
 - original image files remain present;
 - total authored image payload stays within the explicit quality budget.
+
+
+## v3 interaction architecture
+
+The v3 interaction layer adds inspectability without adding an application framework.
+
+```text
+system media queries ─┐
+persisted preference ─┼─> motion-model.js ─> motion.js / pointer-depth.js
+Motion Lab controls ──┘          │
+                                 └─> live profile readout
+
+[data-scene] ─> scene-compass.js ─> native anchors + active-scene telemetry
+```
+
+### Motion Lab
+
+`motion-lab.js` is a DOM adapter. It does not own the motion rules. It edits normalized preferences and reports live telemetry; `app.js` then recreates the same bounded production profile through `motion-model.js`.
+
+Only two preferences are persisted:
+
+- profile override: system / full / compact / reduced;
+- depth scale: 0.5–1.25.
+
+This persistence is meaningful user state, unlike the transient animation state described above.
+
+### Scene Compass
+
+`scene-compass.js` uses `IntersectionObserver` to expose the active semantic scene and a requestAnimationFrame-coalesced document progress indicator. Navigation remains ordinary hash links.
+
+### Depth X-Ray
+
+The X-Ray scene duplicates no source artwork. It references the same cached forest assets and uses transform/opacity-only ScrollTrigger choreography to separate and recompose the strata.

@@ -56,7 +56,7 @@ test("capture visual preview", async ({ page }, testInfo) => {
     fullPage: false,
   });
 
-  await captureScene(page, "#experience", `visual-artifacts/${prefix}-depth.png`);
+  await captureScene(page, "#xray", `visual-artifacts/${prefix}-xray.png`);\n  await captureScene(page, "#mist", `visual-artifacts/${prefix}-depth.png`);
   await captureScene(page, '[data-scene="night"]', `visual-artifacts/${prefix}-night.png`);
   await captureScene(page, "#principles", `visual-artifacts/${prefix}-principles.png`);
   await captureScene(page, '[data-scene="aurora"]', `visual-artifacts/${prefix}-aurora.png`);
