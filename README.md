@@ -117,7 +117,7 @@ Instead it protects performance by:
 - avoiding a second scroll engine;
 - avoiding framework/runtime bundles;
 - limiting pointer work to one requestAnimationFrame-coalesced visual signal;
-- keeping lower scenes CSS-driven where possible;
+- keeping lower scenes CSS-driven where possible;\n- using native CSS scroll progress when supported, with the existing JavaScript progress calculation as a fallback;
 - enforcing a repository asset budget so future changes cannot silently add unlimited weight.
 
 The current artwork is treated as an intentional visual-quality budget, not accidental bloat.
@@ -170,6 +170,7 @@ The browser suite verifies the experience in Chromium, Firefox, and WebKit, incl
 ├── img/
 ├── js/
 │   ├── app.js
+│   ├── atmosphere.js
 │   ├── motion-lab.js
 │   ├── motion-model.js
 │   ├── motion-preferences.js

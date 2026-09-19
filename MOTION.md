@@ -96,3 +96,18 @@ On coarse pointers the separation is primarily vertical and lower amplitude. Red
 ## System scene
 
 The System scene reveals architecture rather than adding a new motion subsystem. Its nodes and connectors use one-shot transform/opacity entrance motion. It does not introduce persistent animation, scroll hijacking, or a second timeline model. Reduced mode renders the full pipeline statically.
+
+
+## Cinematic scene choreography
+
+### Night reveal
+
+Two decorative shutters sit above the night artwork and behind the semantic copy. Scroll moves them outward using transform/opacity only, creating an exposure-like reveal without changing the JPEG itself.
+
+### Aurora build
+
+Aurora ribbons keep their independent CSS drift frequencies. ScrollTrigger controls only their opacity entrance, so scroll choreography and ambient time-based drift do not compete over the same transform property.
+
+### Velocity atmosphere
+
+ScrollTrigger's velocity signal is normalized and bounded before it reaches decorative layers. Full motion receives the complete subtle response, compact motion receives the already-reduced profile intensity, and reduced motion skips the adapter.
