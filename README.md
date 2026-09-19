@@ -2,146 +2,138 @@
 
 [![Quality](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml)
 
-**An accessible cinematic scroll experience exploring depth, rhythm, and motion with semantic HTML, modern CSS, Vanilla JavaScript, and GSAP.**
+**The original 2023 parallax experience first. The modern engineering extension below it.**
 
 [**Open the live experience →**](https://mykoladotsenko.github.io/Parallax-effect/) · [Architecture](./ARCHITECTURE.md) · [Motion system](./MOTION.md)
 
-Nordic Depths rebuilds an early parallax exercise into a focused interaction-engineering case study. The goal is not to maximize the number of effects. It is to make a small motion system feel intentional, resilient, accessible, and easy to reason about.
-
-## Why this project is interesting
-
-- **Native scrolling stays authoritative.** There is no custom scroll engine.
-- **Parallax is declarative, native, and deliberately legible.** A short sticky hero runway lets far / middle / near strata separate visibly while native scroll remains authoritative; the existing ground artwork becomes a fourth foreground plane.
-- **Motion is progressive enhancement.** The complete narrative remains readable without GSAP or JavaScript.
-- **Reduced motion is a first-class product path.** Spatial movement is removed instead of merely slowed down.
-- **Mobile gets lower motion intensity.** Coarse-pointer devices use a shorter hero runway, lower depth amplitude, and no pointer parallax.
-- **The visual source assets remain full quality.** Performance work targets loading behavior, compositing, code, and future payload growth rather than degrading the artwork.
-- **Only transform and opacity are animated by the scroll system.**
-- **No React, Three.js, UI kit, state library, or runtime application framework.**
-- **Interactive documentation lives inside the product.** Motion Lab and X-Ray explain the same system the user is experiencing.
+Nordic Depths no longer replaces the repository's origin. It preserves the original forest + dungeon experience at the top of the page, including the historical layer ratios that made the parallax visually obvious, then turns the same artwork into a modern interaction-engineering case study below.
 
 ## Experience map
 
 ```text
-Forest
+ORIGINAL 2023
+Forest parallax
   ↓
-X-Ray / depth anatomy
+Dungeon / Finnish introduction
+  ↓
+NORDIC DEPTHS — EXTENDED EDITION
+Extension intro
+  ↓
+X-Ray / original layer anatomy
   ↓
 Mist / perception
   ↓
-Rhythm / night
+Night / rhythm
   ↓
 Engineering principles
   ↓
-System / live architecture
+System / visible architecture
   ↓
 Aurora / final statement
 ```
 
-The seven scenes form one continuous narrative rather than a collection of disconnected animation demos.
+## The preserved original
 
-### v3 interaction layer
+The top two screens intentionally keep the original visual language and copy from the 2023 repository.
 
-- **Depth X-Ray** reuses the real forest assets and temporarily separates far / middle / near strata so the authored depth model becomes visible.
-- **Scene Compass** turns the long-form page into a legible six-stage expedition while preserving native anchor navigation.
-- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.
-- **System** turns the dependency graph into a semantic on-page architecture map instead of hiding the engineering story in documentation.
-- The controls modify the real experience. There is no separate toy preview or duplicated motion implementation.
+The historical motion contract is explicit:
+
+| Plane | Original transform |
+| --- | --- |
+| Far / base | `scrollTop / 1.6` |
+| Middle | `scrollTop / 2.5` |
+| Near / front | `scrollTop / 5.7` |
+| Hero copy | `scrollTop / 2` |
+| Dungeon copy | `scrollTop / -7.5` |
+
+Those ratios are now protected by static checks and cross-browser Playwright tests so the repository cannot silently lose its defining effect again.
+
+The old ScrollSmoother dependency is not reintroduced. Native browser scroll remains authoritative; a tiny requestAnimationFrame-coalesced adapter updates the same scroll variable used by the original CSS transforms.
+
+## The extension
+
+Below the preserved original, Nordic Depths adds:
+
+- **Depth X-Ray** — separates the same cached forest strata and exposes the historical divisors `÷1.6`, `÷2.5`, and `÷5.7`.
+- **Scene Compass** — native-anchor navigation through the extended narrative.
+- **Motion Lab** — controls only the modern extension; it intentionally does not mutate the preserved original.
+- **Adaptive motion profiles** — full, compact, and reduced.
+- **System scene** — makes the extension architecture visible in the product.
+- **Night + Aurora choreography** — secondary GSAP/ScrollTrigger motion.
+- **Accessibility** — reduced-motion, keyboard focus, forced-colors fallback, semantic reading order, and automated axe checks.
+- **Cross-browser regression coverage** — Chromium, Firefox, WebKit, and mobile Chromium.
+
+The modern navigation, Scene Compass, progress indicator, and Motion Lab remain hidden during the original 2023 sequence and appear only when the extension begins.
 
 ## Runtime stack
 
 - semantic HTML5
 - modern CSS
 - Vanilla JavaScript / native ES modules
-- GSAP
-- ScrollTrigger
+- GSAP + ScrollTrigger for the extension
+- native browser scroll
 - original high-resolution PNG/JPEG artwork
 
-The product has no application framework and no runtime package installation.
-
-## Verification stack
-
-- Node.js built-in test runner
-- ESLint
-- Playwright
-- axe-core
-- GitHub Actions
-- deterministic static project checks
+No React, Three.js, UI kit, application state framework, or custom scroll engine is used.
 
 ## Architecture
 
 ```text
+PRESERVED ORIGINAL
 index.html
    │
-   ├── semantic content (works without JS)
-   │
-   └── data-depth configuration
-               │
-               ▼
-        js/motion-model.js
-         pure bounded rules
-               │
-        ┌──────┴────────┐
-        ▼               ▼
- js/hero-parallax.js   js/motion.js   js/pointer-depth.js
- native scroll adapter   GSAP scenes      pointer adapter
-        │               │
-        └──────┬────────┘
-               ▼
-             DOM
+   └── original-parallax.js
+           │
+           └── --original-scroll
+                  │
+                  └── exact CSS ratios: /1.6 /2.5 /5.7 /2 /-7.5
+
+EXTENSION
+system media queries + Motion Lab preferences
+                  │
+                  ▼
+          motion-model.js
+                  │
+          ┌───────┴────────┐
+          ▼                ▼
+      motion.js      pointer-depth.js
+      GSAP scenes      extension glow
+          │                │
+          └───────┬────────┘
+                  ▼
+                 DOM
 ```
 
-The pure motion model has no browser or GSAP dependency. Browser-specific orchestration stays at the edges.
+The preserved original and the extension intentionally have separate motion ownership.
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the detailed dependency rules and trade-offs.
+See [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-## Adaptive motion
+## Image-quality policy
 
-Nordic Depths has three motion profiles:
+The original image files remain at source quality:
 
-| Profile | Trigger | Scroll motion | Pointer depth |
-| --- | --- | --- | --- |
-| Full | fine pointer + normal motion preference | full bounded amplitude | yes |
-| Compact | coarse pointer | reduced amplitude | no |
-| Reduced | `prefers-reduced-motion: reduce` | none | no |
+- `layer-base.png`
+- `layer-middle.png`
+- `layer-front.png`
+- `ground.png`
+- `dungeon.jpg`
 
-The same headings, paragraphs, links, and reading order remain available in every mode.
-
-See [MOTION.md](./MOTION.md).
-
-## Visual quality and performance
-
-The original high-resolution image files are deliberately preserved. The project does **not** trade image fidelity for an artificial byte-size score.
-
-Instead it protects performance by:
-
-- preloading only the first critical forest layer;
-- lazy-loading the below-fold night image;
-- keeping motion to compositor-friendly transforms and opacity;
-- avoiding a second scroll engine;
-- avoiding framework/runtime bundles;
-- limiting pointer work to one requestAnimationFrame-coalesced visual signal;
-- keeping lower scenes CSS-driven where possible;
-- using native CSS scroll progress when supported, with the existing JavaScript progress calculation as a fallback;
-- enforcing a repository asset budget so future changes cannot silently add unlimited weight.
-
-The current artwork is treated as an intentional visual-quality budget, not accidental bloat.
+No lossy recompression is used. The authored artwork payload remains protected by a repository budget so future changes cannot silently add unlimited weight.
 
 ## Accessibility
 
-- skip link
-- semantic landmarks and heading order
-- visible keyboard focus
+- one semantic H1 in the preserved original
+- skip link directly to the modern extension
 - native anchor navigation
-- `prefers-reduced-motion` behavior
-- forced-colors fallback that removes decorative imagery
-- no information encoded only in motion
-- no scroll hijacking
-- automated axe checks in browser tests
+- visible keyboard focus
+- `prefers-reduced-motion`: freezes the historical parallax and disables spatial extension motion
+- forced-colors fallback removes decorative artwork
+- no information encoded only in animation
+- automated WCAG A/AA axe checks
 
-## Quality gates
+## Verification
 
-Install development tooling:
+Install tooling:
 
 ```bash
 npm install
@@ -154,28 +146,36 @@ Run static, lint, and unit checks:
 npm run check
 ```
 
-Run browser verification:
+Run cross-browser tests:
 
 ```bash
 npm run test:e2e
 ```
 
-The browser suite verifies the experience in Chromium, Firefox, and WebKit, including a reduced-motion path and automated accessibility analysis.
+The quality pipeline verifies:
+
+- the exact historical parallax ratios remain in CSS;
+- the original Finnish hero remains present;
+- real far / middle / near viewport travel follows the original ordering;
+- the preserved original freezes under reduced motion;
+- the complete extended narrative renders without horizontal overflow or uncaught errors;
+- Motion Lab persistence;
+- extension navigation;
+- serious/critical automated accessibility violations;
+- deterministic visual previews.
 
 ## Project structure
 
 ```text
 .
 ├── .github/workflows/
-│   ├── pages.yml
-│   └── quality.yml
 ├── css/
 │   └── main.css
 ├── fonts/
 ├── img/
 ├── js/
 │   ├── app.js
-│   ├── hero-parallax.js
+│   ├── original-parallax.js
 │   ├── motion-lab.js
 │   ├── motion-model.js
 │   ├── motion-preferences.js
@@ -184,23 +184,14 @@ The browser suite verifies the experience in Chromium, Firefox, and WebKit, incl
 │   └── scene-compass.js
 ├── libs/gsap/
 ├── scripts/
-│   ├── check-project.mjs
-│   └── serve.mjs
 ├── tests/
-│   └── motion-model.test.js
 ├── e2e/
-│   └── nordic-depths.spec.js
 ├── ARCHITECTURE.md
 ├── MOTION.md
-├── eslint.config.js
-├── package.json
-├── playwright.config.js
 └── index.html
 ```
 
 ## Local run
-
-No application build is required.
 
 ```bash
 npm install
@@ -209,14 +200,6 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-## Design decision: why no React or Three.js?
-
-The product is fundamentally a semantic document plus a bounded motion system.
-
-React would add component/runtime surface without solving an application-state problem. Three.js would add a large rendering abstraction for an experience that can be expressed with layered raster art, CSS, and compositor-friendly transforms.
-
-The smaller stack makes the important engineering decisions easier to inspect.
-
 ## Origin
 
-The repository began as a compact GSAP parallax learning exercise. The rebuild intentionally preserves the original artwork and the central idea — depth through scrolling — while replacing tutorial-style orchestration with a maintainable, accessibility-aware implementation.
+The repository began in September 2023 as a compact layered-forest parallax exercise with Finnish personal copy. The current version deliberately preserves that origin instead of hiding it, then demonstrates how the same idea can be expanded into a tested, accessible, inspectable motion system.

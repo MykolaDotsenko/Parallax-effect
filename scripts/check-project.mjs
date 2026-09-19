@@ -6,7 +6,7 @@ const requiredFiles = [
   "index.html",
   "css/main.css",
   "js/app.js",
-  "js/hero-parallax.js",
+  "js/original-parallax.js",
   "js/motion-model.js",
   "js/motion.js",
   "js/pointer-depth.js",
@@ -40,6 +40,11 @@ const assertions = [
   [/forced-colors/.test(css), "forced-colors CSS"],
   [!/^\s*(?:position|margin-top):\s*center\b/m.test(css), "no invalid legacy center declarations"],
   [!html.includes("\\n"), "no literal escaped newlines in HTML"],
+  [/Kerron sinulle/.test(html), "original 2023 Finnish hero preserved"],
+  [/calc\(var\(--original-scroll\) \/ 1\.6\)/.test(css), "original far-layer ratio preserved"],
+  [/calc\(var\(--original-scroll\) \/ 2\.5\)/.test(css), "original middle-layer ratio preserved"],
+  [/calc\(var\(--original-scroll\) \/ 5\.7\)/.test(css), "original near-layer ratio preserved"],
+  [/calc\(var\(--original-scroll\) \/ -7\.5\)/.test(css), "original dungeon copy ratio preserved"],
 ];
 
 for (const [condition, label] of assertions) {

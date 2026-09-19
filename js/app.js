@@ -1,4 +1,4 @@
-import { initHeroParallax } from "./hero-parallax.js";
+import { initOriginalParallax } from "./original-parallax.js";
 import { getMotionProfile } from "./motion-model.js";
 import { loadMotionPreferences, saveMotionPreferences } from "./motion-preferences.js";
 import { initMotionLab } from "./motion-lab.js";
@@ -13,7 +13,7 @@ const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
 
 let preferences = loadMotionPreferences();
 let cleanupMotion = () => {};
-let cleanupHeroParallax = () => {};
+let cleanupOriginalParallax = () => {};
 let cleanupPointer = () => {};
 let motionLab = null;
 
@@ -40,9 +40,53 @@ function initHeader() {
   return () => window.removeEventListener("scroll", sync);
 }
 
+function initExtensionChrome() {
+  const extension = document.querySelector("[data-extension-start]");
+  if (!extension) return () => {};
+
+  let frame = 0;
+  let threshold = 0;
+
+  const measure = () => {
+    threshold = Math.max(0, extension.offsetTop - window.innerHeight * 0.32);
+  };
+
+  const render = () => {
+    frame = 0;
+    document.body.classList.toggle("extension-active", window.scrollY >= threshold);
+  };
+
+  const schedule = () => {
+    if (!frame) frame = window.requestAnimationFrame(render);
+  };
+
+  const onResize = () => {
+    measure();
+    schedule();
+  };
+
+  measure();
+  render();
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", onResize, { passive: true });
+
+  return () => {
+    window.removeEventListener("scroll", schedule);
+    window.removeEventListener("resize", onResize);
+    if (frame) window.cancelAnimationFrame(frame);
+    document.body.classList.remove("extension-active");
+  };
+}
+
+function syncOriginalParallax() {
+  cleanupOriginalParallax();
+  cleanupOriginalParallax = initOriginalParallax({
+    reducedMotion: reducedMotionQuery.matches,
+  });
+}
+
 function syncMotion() {
   cleanupMotion();
-  cleanupHeroParallax();
   cleanupPointer();
 
   const profile = createProfile();
@@ -50,7 +94,6 @@ function syncMotion() {
   document.documentElement.dataset.motionOverride = preferences.profile;
 
   cleanupMotion = initScrollMotion(profile);
-  cleanupHeroParallax = initHeroParallax(profile);
   cleanupPointer = initPointerDepth(profile);
   motionLab?.setProfile(profile);
   motionLab?.setSystemReduced(reducedMotionQuery.matches);
@@ -58,6 +101,8 @@ function syncMotion() {
 
 function start() {
   const cleanupHeader = initHeader();
+  const cleanupExtensionChrome = initExtensionChrome();
+  syncOriginalParallax();
 
   motionLab = initMotionLab({
     preferences,
@@ -76,21 +121,27 @@ function start() {
 
   syncMotion();
 
-  const onMediaChange = () => syncMotion();
-  reducedMotionQuery.addEventListener("change", onMediaChange);
-  coarsePointerQuery.addEventListener("change", onMediaChange);
+  const onReducedMotionChange = () => {
+    syncOriginalParallax();
+    syncMotion();
+  };
+  const onPointerChange = () => syncMotion();
+
+  reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+  coarsePointerQuery.addEventListener("change", onPointerChange);
 
   window.addEventListener(
     "pagehide",
     () => {
       cleanupHeader();
+      cleanupExtensionChrome();
       cleanupCompass();
       cleanupMotion();
-      cleanupHeroParallax();
+      cleanupOriginalParallax();
       cleanupPointer();
       motionLab?.cleanup();
-      reducedMotionQuery.removeEventListener("change", onMediaChange);
-      coarsePointerQuery.removeEventListener("change", onMediaChange);
+      reducedMotionQuery.removeEventListener("change", onReducedMotionChange);
+      coarsePointerQuery.removeEventListener("change", onPointerChange);
     },
     { once: true },
   );

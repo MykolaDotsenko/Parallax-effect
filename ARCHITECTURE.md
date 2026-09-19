@@ -1,238 +1,216 @@
 # Architecture
 
-## Goal
+## Product boundary
 
-Nordic Depths is a motion-focused document, not a single-page application. The architecture therefore keeps semantic content independent from animation and keeps browser/GSAP details outside the pure motion rules.
-
-## Dependency rule
+Nordic Depths has two deliberately separate motion surfaces.
 
 ```text
-HTML configuration
-      ↓
-pure motion model
-      ↓
-browser adapters
-      ↓
-GSAP / DOM
+PRESERVED ORIGINAL (2023)
+historical content + exact parallax ratios
+              │
+              ▼
+     original-parallax.js
+              │
+              ▼
+      --original-scroll
+              │
+              ▼
+        scoped CSS transforms
+
+MODERN EXTENSION
+system signals + persisted preferences
+              │
+              ▼
+       motion-model.js
+              │
+        ┌─────┴─────┐
+        ▼           ▼
+    motion.js   pointer-depth.js
+        │           │
+        └─────┬─────┘
+              ▼
+             DOM
 ```
 
-The dependency direction never reverses.
+The historical sequence is not driven by Motion Lab and does not depend on GSAP.
 
-## Modules
+## Preserved original
+
+### HTML ownership
+
+The top of `index.html` contains the original two-part experience:
+
+1. layered forest with the original Finnish hero copy;
+2. dungeon scene with the original Finnish introduction.
+
+The artwork is the same source artwork committed in 2023.
+
+### `js/original-parallax.js`
+
+This adapter has one job: update `--original-scroll` from native browser scroll.
+
+It:
+
+- uses `window.scrollY` as the only scroll source;
+- coalesces work through one `requestAnimationFrame`;
+- scopes the variable to the preserved original;
+- freezes at zero when the OS requests reduced motion;
+- has explicit cleanup.
+
+The historical ratios remain in CSS rather than being reinterpreted by the modern motion model:
+
+- far: `/ 1.6`
+- middle: `/ 2.5`
+- near: `/ 5.7`
+- hero copy: `/ 2`
+- dungeon copy: `/ -7.5`
+
+This preserves the original visual behavior while avoiding the old ScrollSmoother runtime dependency.
+
+## Extension boundary
+
+`#extension` is the handoff from the historical experience to Nordic Depths Extended.
+
+The fixed brand/header, Scene Compass, progress indicator, and Motion Lab are hidden while the historical sequence is active. `app.js` activates that chrome only when the extension approaches the viewport.
+
+With JavaScript disabled, the chrome remains available instead of becoming inaccessible.
+
+## Modern modules
 
 ### `js/motion-model.js`
 
 Pure functions only:
 
-- clamps untrusted numeric configuration;
-- selects full / compact / reduced motion profiles;
-- maps normalized depth values to bounded travel.
-
-It imports nothing and can be tested by Node without a DOM.
-
-### `js/hero-parallax.js`
-
-Core parallax adapter:
-
-- reads `data-depth` from authored forest layers;
-- keeps native browser scroll as the only position source;
-- uses a short CSS-sticky viewport as a bounded parallax runway, not a custom scroll engine;
-- coalesces scroll work through one `requestAnimationFrame`;
-- maps far / middle / near to signed transform travel so the strata separate in opposite directions;
-- promotes the existing ground artwork to a fourth foreground plane with stronger upward travel;
-- owns hero-copy/cue fading so the identity-defining interaction stays independent from GSAP;
-- writes compositor-friendly `transform` strings directly for cross-browser consistency;
-- returns an explicit cleanup function.
-
-This keeps the project's identity-defining effect independent from GSAP/ScrollTrigger.
+- clamps numeric configuration;
+- selects full / compact / reduced extension profiles;
+- has no DOM or GSAP dependency.
 
 ### `js/motion.js`
 
-GSAP adapter for secondary choreography:
+GSAP/ScrollTrigger adapter for the extension:
 
-- registers ScrollTrigger;
-- applies transform/opacity timelines to X-Ray, Night, System, Aurora, and reveals;
-- does not own the core forest parallax;
-- returns an explicit cleanup function.
+- X-Ray separation/recomposition;
+- System reveal;
+- Night drift/shutters;
+- Aurora build;
+- one-shot content reveals.
 
-If GSAP is unavailable, the page remains static and readable.
+GSAP does not own the preserved original.
 
 ### `js/pointer-depth.js`
 
-Small pointer adapter:
+Fine-pointer enhancement for the extension intro only.
 
-- only enabled for the full profile;
-- coalesces updates through `requestAnimationFrame`;
-- writes two CSS custom properties;
-- never causes React-style render churn or layout reads on every pointer event.
+It:
 
-### `js/app.js`
+- is disabled for compact/reduced profiles;
+- coalesces pointer updates through one animation frame;
+- writes bounded CSS custom properties.
 
-Composition root:
+### `js/motion-lab.js`
 
-- reads media preferences;
-- creates the motion profile;
-- wires adapters together;
-- reconfigures when motion/pointer media queries change;
-- owns page lifecycle cleanup.
+Motion Lab edits only the extension profile:
+
+- system / full / compact / reduced override;
+- bounded extension intensity;
+- live profile, scene, and scroll-velocity telemetry.
+
+The historical parallax is intentionally immutable from this tool.
+
+### `js/scene-compass.js`
+
+Uses semantic `[data-scene]` sections and native hash links. It also owns the document progress indicator, preferring a CSS scroll timeline where supported and retaining a requestAnimationFrame fallback.
 
 ## State ownership
 
-Most runtime state is ephemeral presentation state:
+Persisted state is limited to the modern extension:
 
-- current system media preference;
-- current pointer-derived light offset;
-- GSAP timeline progress;
-- active scene and sticky-header threshold.
+- profile override;
+- extension intensity.
 
-Two explicit user preferences are durable because they materially change the experience:
+The original sequence has no persisted state.
 
-- Motion Lab profile override;
-- bounded depth scale.
+Transient state:
 
-They are normalized before use and persisted locally. No narrative content or scroll position is persisted.
+- active extension scene;
+- header/chrome activation;
+- GSAP progress;
+- pointer-derived extension glow;
+- Motion Lab telemetry.
 
 ## Scroll model
 
-The browser owns scrolling.
+The browser is the only scroll authority.
 
-Nordic Depths intentionally does not use ScrollSmoother or another custom scroll engine. ScrollTrigger observes native scroll position and maps it to compositor-friendly transforms.
+There is:
 
-This avoids:
+- no ScrollSmoother runtime;
+- no custom momentum;
+- no scroll hijacking;
+- no second authoritative scroll position.
 
-- duplicate scroll sources;
-- focus/anchor surprises;
-- custom momentum behavior;
-- extra mobile complexity.
+The preserved original reads native scroll. ScrollTrigger observes the same native scroll for modern lower-page choreography.
 
 ## Progressive enhancement
 
 Baseline:
 
-1. HTML contains the complete narrative.
-2. CSS creates a static premium composition.
-3. JavaScript adds motion if the browser/tooling is available.
-4. Reduced-motion preference disables spatial animation.
-
-A JavaScript failure therefore removes enhancement, not content.
+1. semantic HTML exposes both the original and extension narrative;
+2. CSS renders a complete static composition;
+3. JavaScript restores the historical parallax and adds modern extension motion;
+4. reduced motion freezes spatial animation while preserving content;
+5. JavaScript failure removes enhancement, not information.
 
 ## Rendering constraints
 
-Scroll animation is limited to:
+Scroll-linked motion uses compositor-friendly properties:
 
 - `transform`
 - `opacity`
 
-The architecture does not animate layout properties such as `top`, `left`, `width`, or `height`.
+The original historical CSS ratios are the explicit exception to abstraction: they remain literal and protected because preserving them is a product requirement.
 
 ## Image-quality policy
 
-The original visual assets are retained at source quality. This is a deliberate product decision.
+The 2023 artwork is retained at source quality.
 
-Performance controls instead focus on:
+Performance controls focus on:
 
-- critical-image preload discipline;
-- lazy loading below the fold;
-- no duplicated responsive derivatives unless they can be produced losslessly;
-- repository-level payload budget;
-- zero application-framework runtime;
-- no second animation/scroll engine.
-
-## Failure modes
-
-| Failure | Result |
-| --- | --- |
-| GSAP unavailable | static readable experience |
-| ScrollTrigger unavailable | static readable experience |
-| reduced-motion enabled | static spatial layout + near-zero CSS transitions |
-| pointer unavailable/coarse | pointer depth disabled |
-| JavaScript disabled | semantic content and navigation remain available |
-| decorative image unavailable | text content remains complete |
+- preload discipline;
+- lazy loading where possible;
+- no duplicate framework runtime;
+- no second scroll engine;
+- repository-level image payload budget.
 
 ## Testing strategy
 
-### Pure tests
+### Static
 
-Validate:
+Protects:
 
-- profile selection;
-- clamping;
-- depth-to-travel mapping.
+- metadata and canonical URL;
+- semantic main and exactly one H1;
+- the original Finnish hero;
+- exact `/1.6`, `/2.5`, `/5.7`, and `/-7.5` CSS contracts;
+- reduced-motion and forced-colors CSS;
+- original source artwork and payload budget.
 
-### Browser tests
+### Unit
 
-Validate:
+Validates extension profile selection and preference normalization.
 
-- critical narrative visibility;
-- no horizontal overflow;
-- no uncaught page errors;
-- anchor navigation;
-- reduced-motion mode;
-- automated WCAG A/AA scan.
+### Browser
 
-### Static checks
+Chromium, Firefox, WebKit, and mobile Chromium validate:
 
-Validate:
+- original layer travel ordering;
+- meaningful real viewport separation;
+- reduced-motion freeze for the historical section;
+- extension activation/navigation;
+- Motion Lab persistence;
+- complete narrative and horizontal-overflow safety;
+- serious/critical axe violations.
 
-- required metadata;
-- canonical URL;
-- semantic main/h1 structure;
-- local files;
-- reduced-motion and forced-color CSS;
-- original image files remain present;
-- total authored image payload stays within the explicit quality budget.
+## System scene scope
 
-
-## v3 interaction architecture
-
-The v3 interaction layer adds inspectability without adding an application framework.
-
-```text
-system media queries ─┐
-persisted preference ─┼─> motion-model.js ─> motion.js / pointer-depth.js
-Motion Lab controls ──┘          │
-                                 └─> live profile readout
-
-[data-scene] ─> scene-compass.js ─> native anchors + active-scene telemetry
-```
-
-### Motion Lab
-
-`motion-lab.js` is a DOM adapter. It does not own the motion rules. It edits normalized preferences and reports live telemetry; `app.js` then recreates the same bounded production profile through `motion-model.js`.
-
-Only two preferences are persisted:
-
-- profile override: system / full / compact / reduced;
-- depth scale: 0.5–1.25.
-
-This persistence is meaningful user state, unlike the transient animation state described above.
-
-### Scene Compass
-
-`scene-compass.js` uses `IntersectionObserver` to expose the active semantic scene and a requestAnimationFrame-coalesced document progress indicator. Navigation remains ordinary hash links.
-
-### Depth X-Ray
-
-The X-Ray scene duplicates no source artwork. It references the same cached forest assets and uses transform/opacity-only ScrollTrigger choreography to separate and recompose the strata.
-
-
-## Visible system scene
-
-The on-page System scene is a semantic representation of the same dependency rule described in this document:
-
-```text
-system + user signals
-        ↓
-  pure motion model
-        ↓
- scroll / pointer adapters
-        ↓
-    semantic DOM
-```
-
-The diagram is authored as normal HTML content. GSAP only adds a one-shot reveal for normal-motion profiles; reduced-motion users receive the complete static architecture immediately. The visualization therefore cannot become a second source of architectural truth.
-
-
-## Native scroll-progress enhancement
-
-The document progress bar prefers CSS `animation-timeline: scroll()` when supported. Because current browser support is not universal, `scene-compass.js` retains its requestAnimationFrame-coalesced JavaScript progress calculation as fallback. Navigation and active-scene semantics do not depend on either implementation.
+The on-page System scene documents the **modern extension architecture**, not the preserved 2023 subsystem. This distinction keeps the historical artifact honest and the engineering layer inspectable.

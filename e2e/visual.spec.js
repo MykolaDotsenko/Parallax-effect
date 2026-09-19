@@ -35,6 +35,30 @@ async function captureScene(page, selector, path) {
   await page.screenshot({ path, fullPage: false });
 }
 
+async function preloadOriginalArtwork(page) {
+  await page.evaluate(async () => {
+    const sources = [
+      "img/layer-base.png",
+      "img/layer-middle.png",
+      "img/layer-front.png",
+      "img/ground.png",
+      "img/dungeon.jpg",
+    ];
+
+    await Promise.all(
+      sources.map(
+        (src) =>
+          new Promise((resolve) => {
+            const image = new Image();
+            image.onload = resolve;
+            image.onerror = resolve;
+            image.src = src;
+          }),
+      ),
+    );
+  });
+}
+
 async function warmLazyImages(page) {
   const lazyImages = page.locator('img[loading="lazy"]');
   const count = await lazyImages.count();
@@ -60,40 +84,38 @@ test("capture visual preview", async ({ page }, testInfo) => {
   const prefix = isMobile ? "mobile" : "desktop";
 
   await page.goto("/");
-  await decodeImages(page, '.hero img:not([loading="lazy"])');
-  await expect(page.getByRole("heading", { level: 1, name: /nordic depths/i })).toBeVisible();
+  await preloadOriginalArtwork(page);
+  await expect(page.getByRole("heading", { level: 1, name: /kerron sinulle vähän itsestäni/i })).toBeVisible();
 
   await page.screenshot({
-    path: `visual-artifacts/${prefix}-hero.png`,
+    path: `visual-artifacts/${prefix}-original-forest.png`,
     fullPage: false,
   });
 
   if (isDesktop) {
-    const dimensions = await page.locator("#forest").evaluate((hero) => {
-      const viewport = hero.querySelector("[data-hero-viewport]");
-      return {
-        heroHeight: hero.getBoundingClientRect().height,
-        viewportHeight: viewport.getBoundingClientRect().height,
-      };
-    });
-    const targetScroll = (dimensions.heroHeight - dimensions.viewportHeight) * 0.78;
-
+    const targetScroll = await page.evaluate(() => Math.min(460, window.innerHeight * 0.58));
     await page.evaluate((distance) => {
       document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo(0, distance);
     }, targetScroll);
     await page.waitForFunction(() => {
-      const transforms = Array.from(document.querySelectorAll("[data-parallax-layer]"))
-        .map((layer) => layer.style.transform);
-      return transforms.length === 3 && new Set(transforms).size === 3;
+      const value = document
+        .querySelector("[data-original-experience]")
+        ?.style.getPropertyValue("--original-scroll");
+      return Number.parseFloat(value || "0") > 100;
     });
+    await page.waitForTimeout(900);
     await page.screenshot({
-      path: "visual-artifacts/desktop-hero-parallax-mid.png",
+      path: "visual-artifacts/desktop-original-parallax-mid.png",
       fullPage: false,
     });
     await page.evaluate(() => window.scrollTo(0, 0));
   }
 
+  await captureScene(page, "#original-dungeon", `visual-artifacts/${prefix}-original-dungeon.png`);
+  await captureScene(page, "#extension", `visual-artifacts/${prefix}-extension.png`);
+
+  await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await page.getByRole("button", { name: "Motion Lab" }).click();
   await page.waitForTimeout(180);
   await page.screenshot({
@@ -111,7 +133,7 @@ test("capture visual preview", async ({ page }, testInfo) => {
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.reload();
-  await decodeImages(page, '.hero img:not([loading="lazy"])');
+  await preloadOriginalArtwork(page);
   await warmLazyImages(page);
 
   await page.screenshot({

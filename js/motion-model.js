@@ -48,11 +48,3 @@ export function getMotionProfile({
   });
 }
 
-export function getLayerTravel(depth, intensity = 1) {
-  const safeDepth = clamp(Number(depth) || 0, 0, 1);
-  const safeIntensity = clamp(Number(intensity) || 0, 0, 1.25);
-
-  // Signed layer travel around a neutral middle plane.
-  // Far layers drift down, near layers rise, increasing visible separation.
-  return (0.55 - safeDepth) * 30 * safeIntensity;
-}

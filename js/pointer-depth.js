@@ -1,7 +1,7 @@
 import { clamp } from "./motion-model.js";
 
 export function initPointerDepth(profile) {
-  const hero = document.querySelector('[data-scene="forest"]');
+  const hero = document.querySelector("[data-extension-start]");
 
   if (!hero || !profile.pointerEnabled) {
     return () => {};
