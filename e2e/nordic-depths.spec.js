@@ -47,7 +47,7 @@ test("desktop primary navigation reaches the experience", async ({ page }, testI
   test.skip(testInfo.project.name === "mobile-chromium", "Mobile intentionally uses a compact nav");
 
   await page.goto("/");
-  await page.getByRole("link", { name: "Experience" }).click();
+  await page.getByRole("link", { name: "Experience", exact: true }).click();
   await expect(page.locator("#xray")).toBeInViewport();
 });
 
@@ -56,7 +56,7 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
 
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Experience" })).toBeHidden();
+  await expect(page.getByRole("link", { name: "Experience", exact: true })).toBeHidden();
 });
 
 test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
