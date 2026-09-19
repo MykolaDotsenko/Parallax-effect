@@ -6,8 +6,9 @@ export const DEFAULT_MOTION_PREFERENCES = Object.freeze({
 const ALLOWED_PROFILES = new Set(["system", "full", "compact", "reduced"]);
 
 export function normalizeMotionPreferences(value = {}) {
-  const profile = ALLOWED_PROFILES.has(value.profile) ? value.profile : "system";
-  const numericScale = Number(value.depthScale);
+  const candidate = value && typeof value === "object" ? value : {};
+  const profile = ALLOWED_PROFILES.has(candidate.profile) ? candidate.profile : "system";
+  const numericScale = Number(candidate.depthScale);
   const depthScale = Number.isFinite(numericScale)
     ? Math.min(1.25, Math.max(0.5, numericScale))
     : 1;
@@ -15,9 +16,10 @@ export function normalizeMotionPreferences(value = {}) {
   return Object.freeze({ profile, depthScale });
 }
 
-export function loadMotionPreferences(storage = window.localStorage) {
+export function loadMotionPreferences(storage) {
   try {
-    const raw = storage.getItem("nordic-depths:motion");
+    const target = storage ?? window.localStorage;
+    const raw = target.getItem("nordic-depths:motion");
     return raw
       ? normalizeMotionPreferences(JSON.parse(raw))
       : DEFAULT_MOTION_PREFERENCES;
@@ -26,13 +28,14 @@ export function loadMotionPreferences(storage = window.localStorage) {
   }
 }
 
-export function saveMotionPreferences(preferences, storage = window.localStorage) {
+export function saveMotionPreferences(preferences, storage) {
   const normalized = normalizeMotionPreferences(preferences);
 
   try {
-    storage.setItem("nordic-depths:motion", JSON.stringify(normalized));
+    const target = storage ?? window.localStorage;
+    target.setItem("nordic-depths:motion", JSON.stringify(normalized));
   } catch {
-    // Storage is an optional enhancement; the live preference still applies.
+    // Storage is optional; the preference still applies for this page lifecycle.
   }
 
   return normalized;
