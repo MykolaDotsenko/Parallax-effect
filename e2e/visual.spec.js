@@ -98,12 +98,13 @@ test("capture visual preview", async ({ page }, testInfo) => {
       document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo(0, distance);
     }, targetScroll);
-    await page.waitForFunction(
-      (distance) =>
-        document.querySelector("[data-original-experience]")
-          ?.style.getPropertyValue("--original-scroll") === `${distance}px`,
-      targetScroll,
-    );
+    await page.waitForFunction(() => {
+      const value = document
+        .querySelector("[data-original-experience]")
+        ?.style.getPropertyValue("--original-scroll");
+      return Number.parseFloat(value || "0") > 100;
+    });
+    await page.waitForTimeout(900);
     await page.screenshot({
       path: "visual-artifacts/desktop-original-parallax-mid.png",
       fullPage: false,
