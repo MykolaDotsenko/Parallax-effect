@@ -1,113 +1,108 @@
 # Motion system
 
-## Principle
+## Two motion contracts
 
-Motion exists to communicate depth and rhythm. It is not the product's source of truth.
+Nordic Depths intentionally does not force the 2023 original and the modern extension through one abstraction.
 
-## Motion profiles
+## 1. Preserved original
+
+The original forest uses the historical CSS ratios from the 2023 repository.
+
+```text
+far/base       scrollTop / 1.6
+middle         scrollTop / 2.5
+near/front     scrollTop / 5.7
+hero copy      scrollTop / 2
+dungeon copy   scrollTop / -7.5
+```
+
+These values are literal product requirements.
+
+`original-parallax.js` only supplies the scoped `--original-scroll` value from native browser scroll. CSS performs the same transforms the original project used.
+
+The old ScrollSmoother runtime is intentionally not restored. Native browser scroll provides the position directly, while the original 0.75s transform transition retains the characteristic eased response.
+
+### Reduced motion
+
+When `prefers-reduced-motion: reduce` matches:
+
+- `--original-scroll` remains `0px`;
+- original spatial transforms are neutralized by CSS;
+- all original text remains available.
+
+Motion Lab cannot override this historical subsystem.
+
+## 2. Nordic Depths extension
 
 ### Full
 
-Used when the user has not requested reduced motion and the primary pointer is fine.
+Fine pointer + normal system motion:
 
-- forest depth: full bounded amplitude
-- content reveals: 38px maximum entry distance
-- pointer light: enabled
-- night image drift: enabled
+- complete extension choreography;
+- 38px maximum reveal distance;
+- pointer glow enabled;
+- full bounded intensity.
 
 ### Compact
 
-Used for coarse-pointer devices.
+Coarse pointer:
 
-- scroll amplitude reduced to 58%
-- reveal distance reduced to 22px
-- pointer light disabled
-
-This avoids treating a phone as a small desktop.
+- intensity reduced to 58%;
+- reveal distance reduced to 22px;
+- pointer glow disabled.
 
 ### Reduced
 
-Used when `prefers-reduced-motion: reduce` matches.
+Reduced-motion preference:
 
-- parallax disabled
-- spatial reveals disabled
-- pointer depth disabled
-- aurora/cue animation collapsed by CSS
-- content remains in the same reading order
+- extension spatial choreography disabled;
+- pointer glow disabled;
+- semantic reading order unchanged.
 
-## Depth configuration
+Motion Lab can explicitly inspect extension profiles, but those overrides never alter the preserved original.
 
-Layers declare normalized depth values in HTML:
+## X-Ray
 
-```html
-<img data-parallax-layer data-depth="0.18" ... />
-<img data-parallax-layer data-depth="0.42" ... />
-<img data-parallax-layer data-depth="0.78" ... />
+The X-Ray scene uses the same three forest assets and labels their historical divisors:
+
+- Far — `÷1.6`
+- Middle — `÷2.5`
+- Near — `÷5.7`
+
+The scene then separates and recomposes those layers using transform/opacity-only GSAP choreography.
+
+## Night
+
+Night uses transform/opacity-only drift and shutters. It remains secondary to scroll and never becomes a custom scroll source.
+
+## System
+
+The System scene visualizes the **extension** dependency chain:
+
+```text
+system + Motion Lab preferences
+            ↓
+      pure motion profile
+            ↓
+   GSAP / pointer adapters
+            ↓
+        semantic DOM
 ```
 
-The authored value is normalized **proximity**: `0` is far and `1` is near. The pure motion model clamps it to `0..1`, then maps it around a neutral middle plane. Far layers receive positive vertical travel while near layers receive negative travel. During the short sticky hero runway this creates an intentionally obvious visual split without hijacking browser scroll. The existing `ground.png` is treated as a fourth, closer foreground plane and rises more aggressively than the three forest strata.
+It does not describe or mutate the historical subsystem.
 
-## Animation constraints
+## Aurora
 
-Scroll-linked animation is restricted to compositor-friendly properties:
-
-- transform
-- opacity
-
-Pointer input updates CSS custom properties through one coalesced animation-frame callback.
-
-## Why native scroll
-
-The browser remains the only scroll authority. This preserves predictable anchor navigation, keyboard behavior, platform momentum, and browser accessibility semantics.
-
-## Why GSAP
-
-The core forest parallax intentionally does **not** use ScrollTrigger. It uses native scroll position, one requestAnimationFrame-coalesced adapter, a short CSS-sticky viewport, and the pure bounded depth model. Desktop uses a longer runway; compact/coarse-pointer layouts shorten it and already receive the lower profile intensity.
-
-ScrollTrigger is reserved for secondary choreography where sequencing provides real value:
-
-- X-Ray layer sequence;
-- night image drift and shutters;
-- System reveal;
-- Aurora build;
-- one-shot content reveals.
-
-The rest of the visual system is CSS.
+Aurora uses CSS drift plus ScrollTrigger-controlled opacity build. The two systems do not compete over the same transform property.
 
 ## Cleanup
 
-Every adapter returns a cleanup function. The composition root runs cleanup before changing motion profiles and on `pagehide`, preventing duplicate listeners and timelines.
+Every modern adapter returns cleanup. The preserved original adapter also has explicit cleanup.
 
+This prevents duplicate listeners when system preferences or Motion Lab state change.
 
-## Motion Lab overrides
+## Constraint
 
-The default is `system`, so OS/user media preferences continue to select the profile automatically.
+Native browser scrolling is authoritative everywhere.
 
-Motion Lab can explicitly select full / compact / reduced for inspection. This is a deliberate user action and is persisted locally. The depth slider multiplies bounded scroll intensity from 0.5× to 1.25×; reduced mode always resolves spatial intensity to zero.
-
-## X-Ray choreography
-
-The X-Ray sequence has three phases:
-
-1. composed forest strata;
-2. exploded far / middle / near transforms with visible authored depth values;
-3. recomposition before the next narrative scene.
-
-On coarse pointers the separation is primarily vertical and lower amplitude. Reduced motion leaves the static composed view and depth legend intact.
-
-
-## System scene
-
-The System scene reveals architecture rather than adding a new motion subsystem. Its nodes and connectors use one-shot transform/opacity entrance motion. It does not introduce persistent animation, scroll hijacking, or a second timeline model. Reduced mode renders the full pipeline statically.
-
-
-## Cinematic scene choreography
-
-### Night reveal
-
-Two decorative shutters sit above the night artwork and behind the semantic copy. Scroll moves them outward using transform/opacity only, creating an exposure-like reveal without changing the JPEG itself.
-
-### Aurora build
-
-Aurora ribbons keep their independent CSS drift frequencies. ScrollTrigger controls only their opacity entrance, so scroll choreography and ambient time-based drift do not compete over the same transform property.
-
+The project contains no runtime ScrollSmoother, no custom momentum layer, and no scroll hijacking.

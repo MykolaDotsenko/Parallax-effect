@@ -7,7 +7,7 @@ test("renders the complete narrative without page errors or horizontal overflow"
 
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { level: 1, name: /nordic depths/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /kerron sinulle vähän itsestäni/i })).toBeVisible();
 
   const xrayHeading = page.locator("#xray-title");
   await xrayHeading.scrollIntoViewIfNeeded();
@@ -30,69 +30,48 @@ test("renders the complete narrative without page errors or horizontal overflow"
   expect(errors).toEqual([]);
 });
 
-test("forest parallax preserves correct depth physics", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile-chromium", "Desktop depth contract uses the full motion profile");
-
+test("original 2023 parallax preserves the historical layer ratios", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate(() => {
-    localStorage.removeItem("nordic-depths:motion");
-    document.documentElement.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
-  });
-  await page.reload();
-  await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = "auto";
     window.scrollTo(0, 0);
   });
 
   const sampleTops = async () =>
-    page.locator("[data-parallax-layer]").evaluateAll((layers) =>
+    page.locator("[data-original-layer]").evaluateAll((layers) =>
       layers.map((layer) => layer.getBoundingClientRect().top),
     );
 
   const before = await sampleTops();
-  const foregroundBefore = await page.locator("[data-parallax-foreground]").evaluate(
-    (layer) => layer.getBoundingClientRect().top,
-  );
-  const dimensions = await page.locator("#forest").evaluate((hero) => {
-    const viewport = hero.querySelector("[data-hero-viewport]");
-    return {
-      heroHeight: hero.getBoundingClientRect().height,
-      viewportHeight: viewport.getBoundingClientRect().height,
-    };
-  });
+  const targetScroll = await page.evaluate(() => Math.min(460, window.innerHeight * 0.58));
 
-  expect(dimensions.heroHeight).toBeGreaterThan(dimensions.viewportHeight * 1.2);
-
-  const targetScroll = (dimensions.heroHeight - dimensions.viewportHeight) * 0.85;
-  await page.evaluate((distance) => {
-    document.documentElement.style.scrollBehavior = "auto";
-    window.scrollTo(0, distance);
-  }, targetScroll);
+  await page.evaluate((distance) => window.scrollTo(0, distance), targetScroll);
   await page.waitForFunction(
     (distance) => Math.abs(window.scrollY - distance) < 2,
     targetScroll,
   );
-  await page.waitForFunction(() => {
-    const transforms = Array.from(document.querySelectorAll("[data-parallax-layer]"))
-      .map((layer) => layer.style.transform);
-    return transforms.length === 3 && new Set(transforms).size === 3;
-  });
+  await page.waitForFunction(
+    (distance) =>
+      document.querySelector("[data-original-experience]")
+        ?.style.getPropertyValue("--original-scroll") === `${distance}px`,
+    targetScroll,
+  );
 
   const after = await sampleTops();
-  const foregroundAfter = await page.locator("[data-parallax-foreground]").evaluate(
-    (layer) => layer.getBoundingClientRect().top,
-  );
-  const delta = after.map((top, index) => top - before[index]);
+  const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
 
-  expect(delta).toHaveLength(3);
-  expect(delta[0]).toBeGreaterThan(delta[1]);
-  expect(delta[1]).toBeGreaterThan(delta[2]);
-  expect(delta[0]).toBeGreaterThan(25);
-  expect(delta[2]).toBeLessThan(-20);
-  expect(delta[0] - delta[2]).toBeGreaterThan(120);
-  expect(foregroundAfter - foregroundBefore).toBeLessThan(-40);
+  expect(viewportTravel).toHaveLength(3);
+  expect(viewportTravel[0]).toBeLessThan(viewportTravel[1]);
+  expect(viewportTravel[1]).toBeLessThan(viewportTravel[2]);
+  expect(viewportTravel[2] - viewportTravel[0]).toBeGreaterThan(120);
+});
+
+test("reduced motion freezes the preserved original parallax", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, 360));
+
+  await expect(page.locator("[data-original-experience]")).toHaveCSS("--original-scroll", "0px");
 });
 
 test("desktop scene compass follows the current scene", async ({ page }, testInfo) => {
@@ -106,16 +85,20 @@ test("desktop scene compass follows the current scene", async ({ page }, testInf
   await expect(page.locator('[data-scene-link="xray"]')).toHaveAttribute("aria-current", "step");
 });
 
-test("hero entry cue reaches the X-Ray scene", async ({ page }) => {
+test("the preserved original flows into the Nordic Depths extension", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Scroll to feel depth" }).click();
-  await expect(page.locator("#xray")).toBeInViewport();
+  const extension = page.locator("#extension");
+  await extension.scrollIntoViewIfNeeded();
+  await expect(page.getByRole("heading", { name: "The original stays. The system grows below." })).toBeVisible();
+  await expect(page.locator("body")).toHaveClass(/extension-active/);
 });
 
 test("desktop primary navigation reaches the experience", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile-chromium", "Mobile intentionally uses a compact nav");
 
   await page.goto("/");
+  await page.locator("#extension").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await page.getByRole("link", { name: "Experience", exact: true }).click();
   await expect(page.locator("#xray")).toBeInViewport();
 });
@@ -124,12 +107,16 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
   test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-specific contract");
 
   await page.goto("/");
+  await page.locator("#extension").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Experience", exact: true })).toBeHidden();
 });
 
 test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
   await page.goto("/");
+  await page.locator("#extension").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.body.classList.contains("extension-active"));
   await page.getByRole("button", { name: "Motion Lab" }).click();
   await page.getByText("Reduced", { exact: true }).click();
   await expect(page.getByLabel("Reduced")).toBeChecked();

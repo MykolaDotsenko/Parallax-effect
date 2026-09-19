@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { clamp, getLayerTravel, getMotionProfile } from "../js/motion-model.js";
+import { clamp, getMotionProfile } from "../js/motion-model.js";
 import {
   DEFAULT_MOTION_PREFERENCES,
   normalizeMotionPreferences,
@@ -48,21 +48,6 @@ test("fine pointer receives full motion", () => {
 test("depth intensity is bounded", () => {
   assert.equal(getMotionProfile({ depthScale: 0.1 }).depthScale, 0.5);
   assert.equal(getMotionProfile({ depthScale: 3 }).depthScale, 1.25);
-});
-
-test("hero depth travel separates far and near planes around a neutral middle", () => {
-  assert.ok(getLayerTravel(0.18, 1) > getLayerTravel(0.42, 1));
-  assert.ok(getLayerTravel(0.42, 1) > getLayerTravel(0.78, 1));
-  assert.ok(getLayerTravel(0.18, 1) > 0);
-  assert.ok(getLayerTravel(0.78, 1) < 0);
-  assert.ok(getLayerTravel(0.18, 1) - getLayerTravel(0.78, 1) > 12);
-});
-
-test("signed layer travel clamps proximity and intensity", () => {
-  assert.ok(Math.abs(getLayerTravel(-1, 1) - 16.5) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(1, 1) + 13.5) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(0, 0.5) - 8.25) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(0, 1.25) - 20.625) < 0.001);
 });
 
 test("motion preferences normalize unknown persisted values", () => {

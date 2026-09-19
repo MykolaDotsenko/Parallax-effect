@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Nordic Depths is an accessible cinematic scroll experience exploring depth, rhythm, and motion with semantic HTML, modern CSS, Vanilla JavaScript, and GSAP."
+      content="Nordic Depths preserves the original 2023 forest parallax at full strength, then extends it with an accessible motion-engineering case study built with the native web platform and GSAP."
     />
     <meta name="theme-color" content="#07110f" />
     <link rel="canonical" href="https://mykoladotsenko.github.io/Parallax-effect/" />
@@ -15,7 +15,7 @@
     <meta property="og:title" content="Nordic Depths — Accessible Cinematic Scroll Experience" />
     <meta
       property="og:description"
-      content="A progressive-enhancement motion case study built with the native web platform and GSAP."
+      content="The original 2023 parallax preserved first; the modern accessible engineering extension follows below."
     />
     <meta property="og:url" content="https://mykoladotsenko.github.io/Parallax-effect/" />
     <meta
@@ -38,7 +38,7 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#main-content">Skip to the experience</a>
+    <a class="skip-link" href="#main-content">Skip to the Nordic Depths extension</a>
 
     <header class="site-header" data-header>
       <a class="brand" href="#top" aria-label="Nordic Depths — back to top">
@@ -54,7 +54,7 @@
     </header>
 
     <nav class="scene-compass" aria-label="Scene navigation">
-      <a class="scene-compass__link" href="#forest" data-scene-link="forest" aria-current="step"><span>01</span><strong>Forest</strong></a>
+      <a class="scene-compass__link" href="#forest" data-scene-link="forest" aria-current="step"><span>01</span><strong>Original</strong></a>
       <a class="scene-compass__link" href="#xray" data-scene-link="xray"><span>02</span><strong>X-Ray</strong></a>
       <a class="scene-compass__link" href="#mist" data-scene-link="mist"><span>03</span><strong>Mist</strong></a>
       <a class="scene-compass__link" href="#night" data-scene-link="night"><span>04</span><strong>Night</strong></a>
@@ -90,7 +90,7 @@
       </div>
 
       <p class="motion-lab__intro">
-        Inspect the same motion model that powers the experience. Changes are applied to the real page, not a demo.
+        Inspect the modern Nordic Depths extension. The original 2023 parallax above stays preserved and intentionally independent.
       </p>
 
       <fieldset class="motion-lab__profiles">
@@ -103,7 +103,7 @@
 
       <div class="motion-lab__control">
         <label for="depth-scale">
-          <span>Depth intensity</span>
+          <span>Extension intensity</span>
           <output for="depth-scale" data-depth-output>100%</output>
         </label>
         <input id="depth-scale" data-depth-control type="range" min="50" max="125" step="5" value="100" />
@@ -123,72 +123,89 @@
     </dialog>
 
     <div id="top" class="page-shell">
-      <section id="forest" class="hero scene" aria-labelledby="hero-title" data-scene="forest" data-scene-label="Forest">
-        <div class="hero__viewport" data-hero-viewport>
-          <div class="hero__layers" aria-hidden="true">
-            <div class="hero__light"></div>
-            <img
-              class="hero__layer hero__layer--base"
-              data-parallax-layer
-              data-depth="0.18"
-              src="img/layer-base.png"
-              alt=""
-              fetchpriority="high"
-              decoding="async"
-            />
-            <img
-              class="hero__layer hero__layer--middle"
-              data-parallax-layer
-              data-depth="0.42"
-              src="img/layer-middle.png"
-              alt=""
-              decoding="async"
-            />
-            <img
-              class="hero__layer hero__layer--front"
-              data-parallax-layer
-              data-depth="0.78"
-              src="img/layer-front.png"
-              alt=""
-              decoding="async"
-            />
-            <img
-              class="hero__ground"
-              data-parallax-foreground
-              src="img/ground.png"
-              alt=""
-              decoding="async"
-            />
-            <div class="hero__vignette"></div>
-          </div>
+      <section
+        id="forest"
+        class="original-experience scene"
+        aria-labelledby="original-title"
+        data-original-experience
+        data-scene="forest"
+        data-scene-label="Original"
+      >
+        <header class="original-main-header">
+          <div class="original-layers" data-original-layers>
+            <div class="original-layer__header" data-original-copy>
+              <div class="original-layers__caption">Tervetuloa kaikille</div>
+              <h1 id="original-title" class="original-layers__title">
+                Kerron sinulle <br />
+                vähän itsestäni.
+              </h1>
+            </div>
 
-          <div class="hero__content" data-hero-copy>
-            <p class="eyebrow">01 / Forest</p>
-            <h1 id="hero-title">Nordic<br />Depths</h1>
-            <p class="hero__lead">
-              An accessible cinematic study of depth, rhythm, and motion — built with the
-              native web platform and a deliberately small animation layer.
+            <div
+              class="original-layer original-layers__base"
+              data-original-layer="far"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="original-layer original-layers__middle"
+              data-original-layer="middle"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="original-layer original-layers__front"
+              data-original-layer="near"
+              aria-hidden="true"
+            ></div>
+          </div>
+        </header>
+
+        <article id="original-dungeon" class="original-main-article" aria-labelledby="original-about-title">
+          <div class="original-main-article__content">
+            <h2 id="original-about-title" class="original-main-article__header">
+              Nimeni on Mykola Dotsenko.
+            </h2>
+            <p class="original-main-article__paragraph">
+              Olen itsevetoinen, intohimoinen ja motivoitunut etuosan kehittäjäopiskelija.
+              Ohjelmointi on intohimoni ja tämä jotain, jonka haluaisin tehdä loppuelämäni ajan.
+              Innokas osallistumaan taitoihini ja luovuuteni dynaamisiin projekteihin, jotka
+              ajavat käyttökokemuksen rajoja. Matkani kehitysmaailmaan alkoi tyydyttämättömällä
+              uteliaisuudella ja sitoutumisella jatkuvaan oppimiseen.
             </p>
           </div>
-
-          <a class="scroll-cue" href="#xray" data-parallax-cue>
-            <span>Scroll to feel depth</span>
-            <span class="scroll-cue__line" aria-hidden="true"></span>
-          </a>
-        </div>
+          <div class="original-copy">
+            Olen tiukasti varma, että minusta tulee yksi parhaista opiskelijoista
+          </div>
+        </article>
       </section>
 
       <main id="main-content">
+
+        <section id="extension" class="extension-intro" aria-labelledby="extension-title" data-extension-start>
+          <div class="extension-intro__inner">
+            <p class="section-index">Nordic Depths / Extended edition</p>
+            <h2 id="extension-title">The original stays.<br />The system grows below.</h2>
+            <p>
+              Above is the 2023 parallax experience with its original motion ratios restored.
+              Below, the same artwork becomes an engineering case study: inspectable depth,
+              adaptive motion, accessibility, cross-browser verification, and progressive enhancement.
+            </p>
+
+            <dl class="extension-intro__signals" aria-label="Extension summary">
+              <div><dt>2023</dt><dd>original preserved</dd></div>
+              <div><dt>3</dt><dd>historical layer ratios</dd></div>
+              <div><dt>0</dt><dd>new image assets</dd></div>
+            </dl>
+          </div>
+        </section>
 
         <section id="xray" class="scene scene--xray" aria-labelledby="xray-title" data-scene="xray" data-scene-label="X-Ray">
           <div class="xray__sticky">
             <div class="xray__copy">
               <p class="section-index" data-reveal>02 / X-Ray</p>
-              <p class="kicker" data-reveal>See the system beneath the image</p>
-              <h2 id="xray-title" data-reveal>One forest.<br />Three depths.</h2>
+              <p class="kicker" data-reveal>See the original system beneath the image</p>
+              <h2 id="xray-title" data-reveal>One forest.<br />Three speeds.</h2>
               <p data-reveal>
-                The same artwork becomes a spatial system when each layer receives a bounded depth value.
-                Scroll through the scene to separate the strata, inspect their authored values, and watch them resolve back into one image.
+                The extension dissects the exact three forest strata used above. Their historical parallax divisors are preserved as the reference point, then the scene separates and recomposes them for inspection.
               </p>
             </div>
 
@@ -206,9 +223,9 @@
             </div>
 
             <dl class="xray__legend" aria-label="Depth layer values">
-              <div data-xray-spec><dt>Far</dt><dd>0.18</dd></div>
-              <div data-xray-spec><dt>Middle</dt><dd>0.42</dd></div>
-              <div data-xray-spec><dt>Near</dt><dd>0.78</dd></div>
+              <div data-xray-spec><dt>Far</dt><dd>÷1.6</dd></div>
+              <div data-xray-spec><dt>Middle</dt><dd>÷2.5</dd></div>
+              <div data-xray-spec><dt>Near</dt><dd>÷5.7</dd></div>
             </dl>
           </div>
         </section>
