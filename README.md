@@ -11,13 +11,14 @@ Nordic Depths rebuilds an early parallax exercise into a focused interaction-eng
 ## Why this project is interesting
 
 - **Native scrolling stays authoritative.** There is no custom scroll engine.
-- **Parallax is declarative.** Each visual layer exposes depth as data; the motion adapter maps that value into bounded travel.
+- **Parallax is declarative and native.** Each visual layer exposes depth as data; a requestAnimationFrame-coalesced native-scroll adapter maps that value into bounded travel.
 - **Motion is progressive enhancement.** The complete narrative remains readable without GSAP or JavaScript.
 - **Reduced motion is a first-class product path.** Spatial movement is removed instead of merely slowed down.
 - **Mobile gets lower motion intensity.** Coarse-pointer devices avoid pointer parallax and use shorter reveal travel.
 - **The visual source assets remain full quality.** Performance work targets loading behavior, compositing, code, and future payload growth rather than degrading the artwork.
 - **Only transform and opacity are animated by the scroll system.**
-- **No React, Three.js, UI kit, state library, or runtime application framework.**\n- **Interactive documentation lives inside the product.** Motion Lab and X-Ray explain the same system the user is experiencing.
+- **No React, Three.js, UI kit, state library, or runtime application framework.**
+- **Interactive documentation lives inside the product.** Motion Lab and X-Ray explain the same system the user is experiencing.
 
 ## Experience map
 
@@ -41,7 +42,8 @@ The seven scenes form one continuous narrative rather than a collection of disco
 
 - **Depth X-Ray** reuses the real forest assets and temporarily separates far / middle / near strata so the authored depth model becomes visible.
 - **Scene Compass** turns the long-form page into a legible six-stage expedition while preserving native anchor navigation.
-- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.\n- **System** turns the dependency graph into a semantic on-page architecture map instead of hiding the engineering story in documentation.
+- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.
+- **System** turns the dependency graph into a semantic on-page architecture map instead of hiding the engineering story in documentation.
 - The controls modify the real experience. There is no separate toy preview or duplicated motion implementation.
 
 ## Runtime stack
@@ -79,8 +81,8 @@ index.html
                │
         ┌──────┴────────┐
         ▼               ▼
- js/motion.js     js/pointer-depth.js
- GSAP adapter      pointer adapter
+ js/hero-parallax.js   js/motion.js   js/pointer-depth.js
+ native scroll adapter   GSAP scenes      pointer adapter
         │               │
         └──────┬────────┘
                ▼
@@ -117,7 +119,8 @@ Instead it protects performance by:
 - avoiding a second scroll engine;
 - avoiding framework/runtime bundles;
 - limiting pointer work to one requestAnimationFrame-coalesced visual signal;
-- keeping lower scenes CSS-driven where possible;\n- using native CSS scroll progress when supported, with the existing JavaScript progress calculation as a fallback;
+- keeping lower scenes CSS-driven where possible;
+- using native CSS scroll progress when supported, with the existing JavaScript progress calculation as a fallback;
 - enforcing a repository asset budget so future changes cannot silently add unlimited weight.
 
 The current artwork is treated as an intentional visual-quality budget, not accidental bloat.
@@ -170,7 +173,7 @@ The browser suite verifies the experience in Chromium, Firefox, and WebKit, incl
 ├── img/
 ├── js/
 │   ├── app.js
-│   ├── atmosphere.js
+│   ├── hero-parallax.js
 │   ├── motion-lab.js
 │   ├── motion-model.js
 │   ├── motion-preferences.js

@@ -30,14 +30,26 @@ Pure functions only:
 
 It imports nothing and can be tested by Node without a DOM.
 
+### `js/hero-parallax.js`
+
+Core parallax adapter:
+
+- reads `data-depth` from authored forest layers;
+- keeps native browser scroll as the only position source;
+- coalesces scroll work through one `requestAnimationFrame`;
+- writes one compositor-friendly `transform` string directly for cross-browser consistency;
+- uses the pure motion model for bounded depth compensation;
+- returns an explicit cleanup function.
+
+This keeps the project's identity-defining effect independent from GSAP/ScrollTrigger.
+
 ### `js/motion.js`
 
-GSAP adapter:
+GSAP adapter for secondary choreography:
 
 - registers ScrollTrigger;
-- reads `data-depth` from authored layers;
-- applies transform/opacity timelines;
-- owns reveal and night-scene scroll orchestration;
+- applies transform/opacity timelines to X-Ray, Night, System, Aurora, and reveals;
+- does not own the core forest parallax;
 - returns an explicit cleanup function.
 
 If GSAP is unavailable, the page remains static and readable.
@@ -217,18 +229,6 @@ system + user signals
 
 The diagram is authored as normal HTML content. GSAP only adds a one-shot reveal for normal-motion profiles; reduced-motion users receive the complete static architecture immediately. The visualization therefore cannot become a second source of architectural truth.
 
-
-## Atmosphere adapter
-
-`js/atmosphere.js` is intentionally separate from narrative scroll choreography. It consumes ScrollTrigger velocity and maps it through the pure, bounded `getVelocitySignal()` rule.
-
-Only decorative environment layers respond:
-
-- mist bands shift a few percent;
-- the mist orb scales subtly;
-- the aurora background scales by at most a small fraction.
-
-A `scrollEnd` reset returns all atmosphere transforms to their authored baseline. Reduced motion bypasses the adapter entirely.
 
 ## Native scroll-progress enhancement
 

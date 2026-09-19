@@ -45,7 +45,7 @@ Layers declare normalized depth values in HTML:
 <img data-parallax-layer data-depth="0.78" ... />
 ```
 
-The pure motion model clamps depth to `0..1` before calculating travel. Authored configuration therefore cannot accidentally create unbounded movement.
+The authored value is normalized **proximity**: `0` is far and `1` is near. The pure motion model clamps it to `0..1`, then calculates inverse counter-scroll compensation. Far layers receive more positive compensation and therefore move less in the viewport; near layers receive less compensation and move past the viewer faster. This preserves the perspective relationship of the original parallax implementation while keeping the amplitude bounded.
 
 ## Animation constraints
 
@@ -62,11 +62,15 @@ The browser remains the only scroll authority. This preserves predictable anchor
 
 ## Why GSAP
 
-ScrollTrigger is used where scroll-linked sequencing provides real value:
+The core forest parallax intentionally does **not** use ScrollTrigger. It uses native scroll position, one requestAnimationFrame-coalesced adapter, and the pure bounded depth model.
 
-- layered hero depth;
+ScrollTrigger is reserved for secondary choreography where sequencing provides real value:
+
 - hero copy fade/travel;
-- night image drift;
+- X-Ray layer sequence;
+- night image drift and shutters;
+- System reveal;
+- Aurora build;
 - one-shot content reveals.
 
 The rest of the visual system is CSS.
@@ -108,6 +112,3 @@ Two decorative shutters sit above the night artwork and behind the semantic copy
 
 Aurora ribbons keep their independent CSS drift frequencies. ScrollTrigger controls only their opacity entrance, so scroll choreography and ambient time-based drift do not compete over the same transform property.
 
-### Velocity atmosphere
-
-ScrollTrigger's velocity signal is normalized and bounded before it reaches decorative layers. Full motion receives the complete subtle response, compact motion receives the already-reduced profile intensity, and reduced motion skips the adapter.

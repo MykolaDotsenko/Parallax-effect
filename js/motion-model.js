@@ -51,12 +51,9 @@ export function getMotionProfile({
 export function getLayerTravel(depth, intensity = 1) {
   const safeDepth = clamp(Number(depth) || 0, 0, 1);
   const safeIntensity = clamp(Number(intensity) || 0, 0, 1.25);
-  return safeDepth * 22 * safeIntensity;
+
+  // data-depth is proximity: 0 = far, 1 = near.
+  // Far strata counter-scroll more, so they appear to move slower in the viewport.
+  return (1 - safeDepth) * 60 * safeIntensity;
 }
 
-
-export function getVelocitySignal(velocity, intensity = 1) {
-  const safeVelocity = clamp(Number(velocity) || 0, -2600, 2600);
-  const safeIntensity = clamp(Number(intensity) || 0, 0, 1.25);
-  return (safeVelocity / 2600) * safeIntensity;
-}

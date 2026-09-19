@@ -1,5 +1,5 @@
+import { initHeroParallax } from "./hero-parallax.js";
 import { getMotionProfile } from "./motion-model.js";
-import { initScrollAtmosphere } from "./atmosphere.js";
 import { loadMotionPreferences, saveMotionPreferences } from "./motion-preferences.js";
 import { initMotionLab } from "./motion-lab.js";
 import { initPointerDepth } from "./pointer-depth.js";
@@ -13,7 +13,7 @@ const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
 
 let preferences = loadMotionPreferences();
 let cleanupMotion = () => {};
-let cleanupAtmosphere = () => {};
+let cleanupHeroParallax = () => {};
 let cleanupPointer = () => {};
 let motionLab = null;
 
@@ -42,7 +42,7 @@ function initHeader() {
 
 function syncMotion() {
   cleanupMotion();
-  cleanupAtmosphere();
+  cleanupHeroParallax();
   cleanupPointer();
 
   const profile = createProfile();
@@ -50,7 +50,7 @@ function syncMotion() {
   document.documentElement.dataset.motionOverride = preferences.profile;
 
   cleanupMotion = initScrollMotion(profile);
-  cleanupAtmosphere = initScrollAtmosphere(profile);
+  cleanupHeroParallax = initHeroParallax(profile);
   cleanupPointer = initPointerDepth(profile);
   motionLab?.setProfile(profile);
   motionLab?.setSystemReduced(reducedMotionQuery.matches);
@@ -86,7 +86,7 @@ function start() {
       cleanupHeader();
       cleanupCompass();
       cleanupMotion();
-      cleanupAtmosphere();
+      cleanupHeroParallax();
       cleanupPointer();
       motionLab?.cleanup();
       reducedMotionQuery.removeEventListener("change", onMediaChange);

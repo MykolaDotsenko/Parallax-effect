@@ -30,6 +30,54 @@ test("renders the complete narrative without page errors or horizontal overflow"
   expect(errors).toEqual([]);
 });
 
+test("forest parallax preserves correct depth physics", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile-chromium", "Desktop depth contract uses the full motion profile");
+
+  await page.goto("/");
+  await page.evaluate(() => {
+    localStorage.removeItem("nordic-depths:motion");
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+  });
+  await page.reload();
+  await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+  });
+
+  const sampleTops = async () =>
+    page.locator("[data-parallax-layer]").evaluateAll((layers) =>
+      layers.map((layer) => layer.getBoundingClientRect().top),
+    );
+
+  const before = await sampleTops();
+  const heroHeight = await page.locator("#forest").evaluate((hero) => hero.getBoundingClientRect().height);
+
+  const targetScroll = heroHeight * 0.55;
+  await page.evaluate((distance) => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, distance);
+  }, targetScroll);
+  await page.waitForFunction(
+    (distance) => Math.abs(window.scrollY - distance) < 2,
+    targetScroll,
+  );
+  await page.waitForFunction(() => {
+    const transforms = Array.from(document.querySelectorAll("[data-parallax-layer]"))
+      .map((layer) => layer.style.transform);
+    return transforms.length === 3 && new Set(transforms).size === 3;
+  });
+
+  const after = await sampleTops();
+  const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
+
+  expect(viewportTravel).toHaveLength(3);
+  expect(viewportTravel[0]).toBeLessThan(viewportTravel[1]);
+  expect(viewportTravel[1]).toBeLessThan(viewportTravel[2]);
+  expect(viewportTravel[2] - viewportTravel[0]).toBeGreaterThan(20);
+});
+
 test("desktop scene compass follows the current scene", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile-chromium", "Desktop compass is intentionally hidden on mobile");
 
