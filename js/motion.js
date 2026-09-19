@@ -135,6 +135,35 @@ export function initScrollMotion(profile) {
       });
     }
 
+    const nightScene = document.querySelector('[data-scene="night"]');
+    const nightShutters = nightScene?.querySelectorAll("[data-night-shutter]");
+    if (nightScene && nightShutters?.length) {
+      const [leftShutter, rightShutter] = nightShutters;
+      const travel = profile.mode === "compact" ? 22 : 34;
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: nightScene,
+            start: "top 82%",
+            end: "45% 38%",
+            scrub: 0.55,
+          },
+        })
+        .fromTo(
+          leftShutter,
+          { xPercent: 0, opacity: 0.84 },
+          { xPercent: -travel, opacity: 0.14, ease: "none" },
+          0,
+        )
+        .fromTo(
+          rightShutter,
+          { xPercent: 0, opacity: 0.84 },
+          { xPercent: travel, opacity: 0.14, ease: "none" },
+          0,
+        );
+    }
+
     const nightImage = document.querySelector("[data-night-image]");
     if (nightImage) {
       gsap.fromTo(
@@ -152,6 +181,37 @@ export function initScrollMotion(profile) {
           },
         },
       );
+    }
+
+    const auroraScene = document.querySelector('[data-scene="aurora"]');
+    if (auroraScene) {
+      const ribbons = auroraScene.querySelectorAll(".aurora__ribbon");
+      const stars = auroraScene.querySelector(".aurora__stars");
+
+      gsap.from(ribbons, {
+        opacity: 0,
+        stagger: 0.08,
+        ease: "none",
+        scrollTrigger: {
+          trigger: auroraScene,
+          start: "top 86%",
+          end: "40% 48%",
+          scrub: true,
+        },
+      });
+
+      if (stars) {
+        gsap.from(stars, {
+          opacity: 0.06,
+          ease: "none",
+          scrollTrigger: {
+            trigger: auroraScene,
+            start: "top 82%",
+            end: "35% 52%",
+            scrub: true,
+          },
+        });
+      }
     }
 
     document.querySelectorAll("[data-reveal]").forEach((element) => {

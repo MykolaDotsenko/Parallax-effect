@@ -7,6 +7,7 @@ export function initSceneCompass({ onSceneChange = () => {} } = {}) {
   const scenes = Array.from(document.querySelectorAll("[data-scene][id]"));
   const links = Array.from(document.querySelectorAll("[data-scene-link]"));
   const progressBar = document.querySelector("[data-document-progress]");
+  const nativeScrollTimeline = window.CSS?.supports?.("animation-timeline: scroll()") ?? false;
 
   if (!scenes.length) return () => {};
 
@@ -30,7 +31,7 @@ export function initSceneCompass({ onSceneChange = () => {} } = {}) {
 
   const updateProgress = () => {
     frame = 0;
-    if (progressBar) {
+    if (progressBar && !nativeScrollTimeline) {
       progressBar.style.transform = `scaleX(${getDocumentProgress()})`;
     }
   };
@@ -57,13 +58,15 @@ export function initSceneCompass({ onSceneChange = () => {} } = {}) {
       : null;
 
   scenes.forEach((scene) => observer?.observe(scene));
-  window.addEventListener("scroll", onScroll, { passive: true });
-  updateProgress();
+  if (!nativeScrollTimeline) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateProgress();
+  }
   onSceneChange(scenes[0].dataset.sceneLabel || scenes[0].id);
 
   return () => {
     observer?.disconnect();
-    window.removeEventListener("scroll", onScroll);
+    if (!nativeScrollTimeline) window.removeEventListener("scroll", onScroll);
     if (frame) window.cancelAnimationFrame(frame);
   };
 }
