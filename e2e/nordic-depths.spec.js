@@ -34,7 +34,7 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
   test.skip(testInfo.project.name !== "mobile-chromium", "Mobile-specific contract");
 
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Source" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Source", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Principles" })).toBeHidden();
 });
 
