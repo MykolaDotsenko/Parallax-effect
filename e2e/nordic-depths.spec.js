@@ -62,7 +62,8 @@ test("mobile keeps a compact source-first navigation", async ({ page }, testInfo
 test("Motion Lab changes and persists the real motion profile", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Motion Lab" }).click();
-  await page.getByText("Reduced", { exact: true }).click();\n  await expect(page.getByLabel("Reduced")).toBeChecked();
+  await page.getByText("Reduced", { exact: true }).click();
+  await expect(page.getByLabel("Reduced")).toBeChecked();
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
 
   await page.reload();
