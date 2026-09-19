@@ -63,7 +63,7 @@ export function initScrollMotion(profile) {
     document.querySelectorAll("[data-reveal]").forEach((element) => {
       gsap.from(element, {
         y: profile.revealDistance,
-        autoAlpha: 0,
+        opacity: 0,
         duration: 0.8,
         ease: "power3.out",
         scrollTrigger: {
