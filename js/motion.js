@@ -103,6 +103,38 @@ export function initScrollMotion(profile) {
         .to(specs, { opacity: 0.72, duration: 0.2 }, 0.72);
     }
 
+    const systemScene = document.querySelector('[data-scene="system"]');
+    if (systemScene) {
+      const systemNodes = systemScene.querySelectorAll("[data-system-node]");
+      const systemConnectors = systemScene.querySelectorAll("[data-system-connector]");
+
+      gsap.from(systemNodes, {
+        y: Math.min(profile.revealDistance, 26),
+        opacity: 0,
+        duration: 0.72,
+        stagger: 0.09,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: systemScene,
+          start: "top 64%",
+          once: true,
+        },
+      });
+
+      gsap.from(systemConnectors, {
+        scaleY: 0,
+        opacity: 0,
+        duration: 0.34,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: systemScene,
+          start: "top 58%",
+          once: true,
+        },
+      });
+    }
+
     const nightImage = document.querySelector("[data-night-image]");
     if (nightImage) {
       gsap.fromTo(

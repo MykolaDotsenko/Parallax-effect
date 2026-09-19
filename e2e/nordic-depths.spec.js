@@ -17,6 +17,10 @@ test("renders the complete narrative without page errors or horizontal overflow"
   await depthHeading.scrollIntoViewIfNeeded();
   await expect(depthHeading).toBeVisible();
 
+  const systemHeading = page.locator("#system-title");
+  await systemHeading.scrollIntoViewIfNeeded();
+  await expect(systemHeading).toBeVisible();
+
   const auroraHeading = page.locator("#aurora-title");
   await auroraHeading.scrollIntoViewIfNeeded();
   await expect(auroraHeading).toBeVisible();
@@ -74,6 +78,16 @@ test("reduced system motion becomes the active profile when no override is store
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
+});
+
+test("system scene exposes the architecture as readable content", async ({ page }) => {
+  await page.goto("/");
+  const system = page.locator("#system");
+  await system.scrollIntoViewIfNeeded();
+
+  await expect(page.getByRole("heading", { name: "One model. Bounded adapters." })).toBeVisible();
+  await expect(system.locator("[data-system-node]")).toHaveCount(5);
+  await expect(system.getByText("getMotionProfile()", { exact: true })).toBeVisible();
 });
 
 test("critical page has no serious or critical automated accessibility violations", async ({ page }) => {

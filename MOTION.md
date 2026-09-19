@@ -91,3 +91,8 @@ The X-Ray sequence has three phases:
 3. recomposition before the next narrative scene.
 
 On coarse pointers the separation is primarily vertical and lower amplitude. Reduced motion leaves the static composed view and depth legend intact.
+
+
+## System scene
+
+The System scene reveals architecture rather than adding a new motion subsystem. Its nodes and connectors use one-shot transform/opacity entrance motion. It does not introduce persistent animation, scroll hijacking, or a second timeline model. Reduced mode renders the full pipeline statically.

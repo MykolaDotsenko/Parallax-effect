@@ -59,7 +59,7 @@
       <a class="scene-compass__link" href="#mist" data-scene-link="mist"><span>03</span><strong>Mist</strong></a>
       <a class="scene-compass__link" href="#night" data-scene-link="night"><span>04</span><strong>Night</strong></a>
       <a class="scene-compass__link" href="#principles" data-scene-link="principles"><span>05</span><strong>Principles</strong></a>
-      <a class="scene-compass__link" href="#aurora" data-scene-link="aurora"><span>06</span><strong>Aurora</strong></a>
+      <a class="scene-compass__link" href="#system" data-scene-link="system"><span>06</span><strong>System</strong></a>\n      <a class="scene-compass__link" href="#aurora" data-scene-link="aurora"><span>07</span><strong>Aurora</strong></a>
     </nav>
 
     <div class="scene-progress" aria-hidden="true">
@@ -310,6 +310,73 @@
           </div>
         </section>
 
+
+        <section id="system" class="scene scene--system" aria-labelledby="system-title" data-scene="system" data-scene-label="System">
+          <div class="system-shell">
+            <div class="system-copy">
+              <p class="section-index" data-reveal>06 / System</p>
+              <p class="kicker" data-reveal>Architecture made visible</p>
+              <h2 id="system-title" data-reveal>One model.<br />Bounded adapters.</h2>
+              <p data-reveal>
+                System signals and explicit user preferences resolve into one pure motion profile.
+                Browser adapters consume that profile at the edges, while the semantic document
+                remains the source of truth.
+              </p>
+
+              <dl class="system-signals" aria-label="Architecture constraints">
+                <div data-reveal><dt>0</dt><dd>runtime frameworks</dd></div>
+                <div data-reveal><dt>1</dt><dd>motion model</dd></div>
+                <div data-reveal><dt>2</dt><dd>browser adapters</dd></div>
+              </dl>
+            </div>
+
+            <div class="system-pipeline" aria-label="Motion architecture flow">
+              <article class="system-node system-node--signal" data-system-node>
+                <span class="system-node__index">01 / Signals</span>
+                <h3>System + user</h3>
+                <p>Media queries and locally persisted Motion Lab preferences.</p>
+                <code>reducedMotion · pointer · override</code>
+              </article>
+
+              <span class="system-connector" data-system-connector aria-hidden="true"></span>
+
+              <article class="system-node system-node--model" data-system-node>
+                <span class="system-node__index">02 / Pure model</span>
+                <h3>Motion profile</h3>
+                <p>One deterministic function clamps intensity and selects behavior.</p>
+                <code>getMotionProfile()</code>
+              </article>
+
+              <span class="system-connector" data-system-connector aria-hidden="true"></span>
+
+              <div class="system-adapters" aria-label="Browser adapters">
+                <article class="system-node" data-system-node>
+                  <span class="system-node__index">03 / Scroll</span>
+                  <h3>Scroll adapter</h3>
+                  <p>ScrollTrigger maps native scroll to bounded transforms.</p>
+                  <code>motion.js</code>
+                </article>
+
+                <article class="system-node" data-system-node>
+                  <span class="system-node__index">04 / Pointer</span>
+                  <h3>Pointer adapter</h3>
+                  <p>Fine pointers get one frame-coalesced depth signal.</p>
+                  <code>pointer-depth.js</code>
+                </article>
+              </div>
+
+              <span class="system-connector" data-system-connector aria-hidden="true"></span>
+
+              <article class="system-node system-node--output" data-system-node>
+                <span class="system-node__index">05 / Output</span>
+                <h3>Semantic DOM</h3>
+                <p>The same content survives when every enhancement disappears.</p>
+                <code>transform · opacity</code>
+              </article>
+            </div>
+          </div>
+        </section>
+
         <section id="aurora" class="scene scene--aurora" aria-labelledby="aurora-title" data-scene="aurora" data-scene-label="Aurora">
           <div class="aurora" aria-hidden="true">
             <span class="aurora__ribbon aurora__ribbon--one"></span>
@@ -319,7 +386,7 @@
           </div>
 
           <div class="aurora__content">
-            <p class="eyebrow" data-reveal>06 / Aurora</p>
+            <p class="eyebrow" data-reveal>07 / Aurora</p>
             <h2 id="aurora-title" data-reveal>Motion with purpose.</h2>
             <p data-reveal>
               Native web platform. Progressive enhancement. Accessible by default.
