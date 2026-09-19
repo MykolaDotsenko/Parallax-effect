@@ -41,6 +41,10 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
   });
   await page.reload();
   await page.waitForFunction(() => document.documentElement.dataset.motion === "full");
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+  });
 
   const sampleTops = async () =>
     page.locator("[data-parallax-layer]").evaluateAll((layers) =>
@@ -50,8 +54,16 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
   const before = await sampleTops();
   const heroHeight = await page.locator("#forest").evaluate((hero) => hero.getBoundingClientRect().height);
 
-  await page.evaluate((distance) => window.scrollTo(0, distance), heroHeight * 0.55);
-  await page.waitForTimeout(180);
+  const targetScroll = heroHeight * 0.55;
+  await page.evaluate((distance) => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, distance);
+  }, targetScroll);
+  await page.waitForFunction(
+    (distance) => Math.abs(window.scrollY - distance) < 2,
+    targetScroll,
+  );
+  await page.waitForTimeout(80);
 
   const after = await sampleTops();
   const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
