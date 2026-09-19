@@ -56,8 +56,9 @@ export function initMotionLab({
     toggle.setAttribute("aria-expanded", "true");
   };
 
-  const closeDialog = () => {
-    dialog.close();
+  const closeDialog = () => dialog.close();
+
+  const onDialogClose = () => {
     toggle.setAttribute("aria-expanded", "false");
   };
 
@@ -103,6 +104,7 @@ export function initMotionLab({
 
   toggle.addEventListener("click", openDialog);
   close?.addEventListener("click", closeDialog);
+  dialog.addEventListener("close", onDialogClose);
   reset?.addEventListener("click", onReset);
   radios.forEach((radio) => radio.addEventListener("change", onRadioChange));
   depth?.addEventListener("input", onDepthInput);
@@ -113,6 +115,7 @@ export function initMotionLab({
     cleanup() {
       toggle.removeEventListener("click", openDialog);
       close?.removeEventListener("click", closeDialog);
+      dialog.removeEventListener("close", onDialogClose);
       reset?.removeEventListener("click", onReset);
       radios.forEach((radio) => radio.removeEventListener("change", onRadioChange));
       depth?.removeEventListener("input", onDepthInput);
