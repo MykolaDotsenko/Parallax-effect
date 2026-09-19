@@ -21,8 +21,9 @@ export function initPointerDepth(profile) {
     const x = event.clientX / window.innerWidth - 0.5;
     const y = event.clientY / window.innerHeight - 0.5;
 
-    latestX = clamp(x * 10, -5, 5);
-    latestY = clamp(y * 8, -4, 4);
+    const scale = profile.depthScale ?? 1;
+    latestX = clamp(x * 10 * scale, -6, 6);
+    latestY = clamp(y * 8 * scale, -5, 5);
 
     if (!frame) {
       frame = window.requestAnimationFrame(render);

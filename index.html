@@ -47,14 +47,82 @@
       </a>
 
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#experience">Experience</a>
+        <a href="#xray">Experience</a>
         <a href="#principles">Principles</a>
         <a href="https://github.com/MykolaDotsenko/Parallax-effect">Source</a>
       </nav>
     </header>
 
+    <nav class="scene-compass" aria-label="Scene navigation">
+      <a class="scene-compass__link" href="#forest" data-scene-link="forest" aria-current="step"><span>01</span><strong>Forest</strong></a>
+      <a class="scene-compass__link" href="#xray" data-scene-link="xray"><span>02</span><strong>X-Ray</strong></a>
+      <a class="scene-compass__link" href="#mist" data-scene-link="mist"><span>03</span><strong>Mist</strong></a>
+      <a class="scene-compass__link" href="#night" data-scene-link="night"><span>04</span><strong>Night</strong></a>
+      <a class="scene-compass__link" href="#principles" data-scene-link="principles"><span>05</span><strong>Principles</strong></a>
+      <a class="scene-compass__link" href="#aurora" data-scene-link="aurora"><span>06</span><strong>Aurora</strong></a>
+    </nav>
+
+    <div class="scene-progress" aria-hidden="true">
+      <span class="scene-progress__bar" data-document-progress></span>
+    </div>
+
+    <button
+      class="motion-lab-toggle"
+      type="button"
+      data-motion-lab-toggle
+      aria-haspopup="dialog"
+      aria-controls="motion-lab"
+      aria-expanded="false"
+      hidden
+    >
+      <span class="motion-lab-toggle__signal" aria-hidden="true"></span>
+      Motion Lab
+    </button>
+
+    <dialog id="motion-lab" class="motion-lab" aria-labelledby="motion-lab-title" data-motion-lab hidden>
+      <div class="motion-lab__header">
+        <div>
+          <p class="motion-lab__eyebrow">Live system controls</p>
+          <h2 id="motion-lab-title">Motion Lab</h2>
+        </div>
+        <button class="motion-lab__close" type="button" data-motion-lab-close aria-label="Close Motion Lab">×</button>
+      </div>
+
+      <p class="motion-lab__intro">
+        Inspect the same motion model that powers the experience. Changes are applied to the real page, not a demo.
+      </p>
+
+      <fieldset class="motion-lab__profiles">
+        <legend>Experience profile</legend>
+        <label><input type="radio" name="motion-profile" value="system" /> <span>System</span></label>
+        <label><input type="radio" name="motion-profile" value="full" /> <span>Full</span></label>
+        <label><input type="radio" name="motion-profile" value="compact" /> <span>Compact</span></label>
+        <label><input type="radio" name="motion-profile" value="reduced" /> <span>Reduced</span></label>
+      </fieldset>
+
+      <div class="motion-lab__control">
+        <label for="depth-scale">
+          <span>Depth intensity</span>
+          <output for="depth-scale" data-depth-output>100%</output>
+        </label>
+        <input id="depth-scale" data-depth-control type="range" min="50" max="125" step="5" value="100" />
+      </div>
+
+      <dl class="motion-lab__telemetry" aria-label="Live motion telemetry">
+        <div><dt>Active profile</dt><dd data-profile-readout>Full</dd></div>
+        <div><dt>System reduce</dt><dd data-system-motion-readout>Off</dd></div>
+        <div><dt>Current scene</dt><dd data-scene-readout>Forest</dd></div>
+        <div><dt>Scroll velocity</dt><dd data-velocity-readout>0 px/s</dd></div>
+      </dl>
+
+      <div class="motion-lab__footer">
+        <button class="motion-lab__reset" type="button" data-motion-lab-reset>Reset to system</button>
+        <p>Preferences stay on this device.</p>
+      </div>
+    </dialog>
+
     <div id="top" class="page-shell">
-      <section class="hero scene" aria-labelledby="hero-title" data-scene="forest">
+      <section id="forest" class="hero scene" aria-labelledby="hero-title" data-scene="forest" data-scene-label="Forest">
         <div class="hero__layers" aria-hidden="true">
           <div class="hero__light"></div>
           <img
@@ -95,14 +163,48 @@
           </p>
         </div>
 
-        <a class="scroll-cue" href="#experience">
-          <span>Enter the mist</span>
+        <a class="scroll-cue" href="#xray">
+          <span>Reveal the layers</span>
           <span class="scroll-cue__line" aria-hidden="true"></span>
         </a>
       </section>
 
       <main id="main-content">
-        <section id="experience" class="scene scene--mist narrative" aria-labelledby="depth-title">
+
+        <section id="xray" class="scene scene--xray" aria-labelledby="xray-title" data-scene="xray" data-scene-label="X-Ray">
+          <div class="xray__sticky">
+            <div class="xray__copy">
+              <p class="section-index" data-reveal>02 / X-Ray</p>
+              <p class="kicker" data-reveal>See the system beneath the image</p>
+              <h2 id="xray-title" data-reveal>One forest.<br />Three depths.</h2>
+              <p data-reveal>
+                The same artwork becomes a spatial system when each layer receives a bounded depth value.
+                Scroll through the scene to separate the strata, inspect their authored values, and watch them resolve back into one image.
+              </p>
+            </div>
+
+            <div class="xray__stage" aria-hidden="true" data-xray-stage>
+              <div class="xray__layer xray__layer--far" data-xray-layer="far">
+                <img src="img/layer-base.png" alt="" decoding="async" />
+              </div>
+              <div class="xray__layer xray__layer--mid" data-xray-layer="mid">
+                <img src="img/layer-middle.png" alt="" decoding="async" />
+              </div>
+              <div class="xray__layer xray__layer--near" data-xray-layer="near">
+                <img src="img/layer-front.png" alt="" decoding="async" />
+              </div>
+              <div class="xray__axis"></div>
+            </div>
+
+            <dl class="xray__legend" aria-label="Depth layer values">
+              <div data-xray-spec><dt>Far</dt><dd>0.18</dd></div>
+              <div data-xray-spec><dt>Middle</dt><dd>0.42</dd></div>
+              <div data-xray-spec><dt>Near</dt><dd>0.78</dd></div>
+            </dl>
+          </div>
+        </section>
+
+        <section id="mist" class="scene scene--mist narrative" aria-labelledby="depth-title" data-scene="mist" data-scene-label="Mist">
           <div class="mist" aria-hidden="true">
             <span class="mist__band mist__band--one"></span>
             <span class="mist__band mist__band--two"></span>
@@ -110,7 +212,7 @@
           </div>
 
           <div class="narrative__grid">
-            <div class="section-index" data-reveal>02 / Depth</div>
+            <div class="section-index" data-reveal>03 / Mist</div>
             <div class="narrative__copy">
               <p class="kicker" data-reveal>Distance changes perception</p>
               <h2 id="depth-title" data-reveal>Motion should create hierarchy, not noise.</h2>
@@ -138,7 +240,7 @@
           </div>
         </section>
 
-        <section class="scene scene--night narrative" aria-labelledby="rhythm-title" data-scene="night">
+        <section id="night" class="scene scene--night narrative" aria-labelledby="rhythm-title" data-scene="night" data-scene-label="Night">
           <img
             class="night-image"
             src="img/dungeon.jpg"
@@ -151,7 +253,7 @@
           <div class="night-overlay" aria-hidden="true"></div>
 
           <div class="narrative__grid narrative__grid--night">
-            <div class="section-index" data-reveal>03 / Rhythm</div>
+            <div class="section-index" data-reveal>04 / Rhythm</div>
             <div class="narrative__copy">
               <p class="kicker" data-reveal>Follow the user</p>
               <h2 id="rhythm-title" data-reveal>Good motion never fights the scroll.</h2>
@@ -172,9 +274,9 @@
           </div>
         </section>
 
-        <section id="principles" class="scene scene--principles" aria-labelledby="principles-title">
+        <section id="principles" class="scene scene--principles" aria-labelledby="principles-title" data-scene="principles" data-scene-label="Principles">
           <div class="principles__heading">
-            <p class="section-index" data-reveal>04 / Principles</p>
+            <p class="section-index" data-reveal>05 / Principles</p>
             <h2 id="principles-title" data-reveal>Every effect has a job.</h2>
           </div>
 
@@ -208,7 +310,7 @@
           </div>
         </section>
 
-        <section class="scene scene--aurora" aria-labelledby="aurora-title" data-scene="aurora">
+        <section id="aurora" class="scene scene--aurora" aria-labelledby="aurora-title" data-scene="aurora" data-scene-label="Aurora">
           <div class="aurora" aria-hidden="true">
             <span class="aurora__ribbon aurora__ribbon--one"></span>
             <span class="aurora__ribbon aurora__ribbon--two"></span>
@@ -217,7 +319,7 @@
           </div>
 
           <div class="aurora__content">
-            <p class="eyebrow" data-reveal>05 / Aurora</p>
+            <p class="eyebrow" data-reveal>06 / Aurora</p>
             <h2 id="aurora-title" data-reveal>Motion with purpose.</h2>
             <p data-reveal>
               Native web platform. Progressive enhancement. Accessible by default.

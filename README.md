@@ -17,14 +17,16 @@ Nordic Depths rebuilds an early parallax exercise into a focused interaction-eng
 - **Mobile gets lower motion intensity.** Coarse-pointer devices avoid pointer parallax and use shorter reveal travel.
 - **The visual source assets remain full quality.** Performance work targets loading behavior, compositing, code, and future payload growth rather than degrading the artwork.
 - **Only transform and opacity are animated by the scroll system.**
-- **No React, Three.js, UI kit, state library, or runtime application framework.**
+- **No React, Three.js, UI kit, state library, or runtime application framework.**\n- **Interactive documentation lives inside the product.** Motion Lab and X-Ray explain the same system the user is experiencing.
 
 ## Experience map
 
 ```text
 Forest
   ↓
-Depth / mist
+X-Ray / depth anatomy
+  ↓
+Mist / perception
   ↓
 Rhythm / night
   ↓
@@ -33,7 +35,14 @@ Engineering principles
 Aurora / final statement
 ```
 
-The five scenes form one continuous narrative rather than a collection of disconnected animation demos.
+The six scenes form one continuous narrative rather than a collection of disconnected animation demos.
+
+### v3 interaction layer
+
+- **Depth X-Ray** reuses the real forest assets and temporarily separates far / middle / near strata so the authored depth model becomes visible.
+- **Scene Compass** turns the long-form page into a legible six-stage expedition while preserving native anchor navigation.
+- **Motion Lab** exposes the actual production motion profile and depth scale, with live scene/velocity telemetry and local preference persistence.
+- The controls modify the real experience. There is no separate toy preview or duplicated motion implementation.
 
 ## Runtime stack
 
