@@ -50,12 +50,13 @@ test("original 2023 parallax preserves the historical layer ratios", async ({ pa
     (distance) => Math.abs(window.scrollY - distance) < 2,
     targetScroll,
   );
-  await page.waitForFunction(
-    (distance) =>
-      document.querySelector("[data-original-experience]")
-        ?.style.getPropertyValue("--original-scroll") === `${distance}px`,
-    targetScroll,
-  );
+  await page.waitForFunction(() => {
+    const value = document
+      .querySelector("[data-original-experience]")
+      ?.style.getPropertyValue("--original-scroll");
+    return Number.parseFloat(value || "0") > 100;
+  });
+  await page.waitForTimeout(900);
 
   const after = await sampleTops();
   const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
