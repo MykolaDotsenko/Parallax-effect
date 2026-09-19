@@ -204,7 +204,7 @@ a {
   max-width: none;
   object-fit: cover;
   object-position: center;
-  transform: translate3d(0, var(--parallax-y, 0%), 0) scale(1.03);
+  transform: translate3d(0, 0, 0) scale(1.03);
   transform-origin: 50% 50%;
 }
 
