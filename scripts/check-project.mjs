@@ -40,7 +40,7 @@ const assertions = [
   [/forced-colors/.test(css), "forced-colors CSS"],
   [!/^\s*(?:position|margin-top):\s*center\b/m.test(css), "no invalid legacy center declarations"],
   [!html.includes("\\n"), "no literal escaped newlines in HTML"],
-  [/Kerron sinulle/.test(html), "original 2023 Finnish hero preserved"],
+  [/Rakennan toimivia/.test(html), "current Finnish hero copy present"],
   [/calc\(var\(--original-scroll\) \/ 1\.6\)/.test(css), "original far-layer ratio preserved"],
   [/calc\(var\(--original-scroll\) \/ 2\.5\)/.test(css), "original middle-layer ratio preserved"],
   [/calc\(var\(--original-scroll\) \/ 5\.7\)/.test(css), "original near-layer ratio preserved"],

@@ -85,7 +85,7 @@ test("capture visual preview", async ({ page }, testInfo) => {
 
   await page.goto("/");
   await preloadOriginalArtwork(page);
-  await expect(page.getByRole("heading", { level: 1, name: /kerron sinulle vähän itsestäni/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /rakennan toimivia digitaalisia tuotteita/i })).toBeVisible();
 
   await page.screenshot({
     path: `visual-artifacts/${prefix}-original-forest.png`,
