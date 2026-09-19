@@ -2,7 +2,7 @@
 
 [![Quality](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml)
 
-**The original 2023 parallax experience first. The modern engineering extension below it.**
+**The original 2023 parallax mechanics first, with current portfolio copy. The modern engineering extension below it.**
 
 [**Open the live experience →**](https://mykoladotsenko.github.io/Parallax-effect/) · [Architecture](./ARCHITECTURE.md) · [Motion system](./MOTION.md)
 
@@ -34,7 +34,7 @@ Aurora / final statement
 
 ## The preserved original
 
-The top two screens intentionally keep the original visual language and copy from the 2023 repository.
+The top two screens intentionally keep the original 2023 visual composition and motion mechanics, while the Finnish copy has been updated to reflect the current portfolio.
 
 The historical motion contract is explicit:
 
@@ -155,7 +155,7 @@ npm run test:e2e
 The quality pipeline verifies:
 
 - the exact historical parallax ratios remain in CSS;
-- the original Finnish hero remains present;
+- the current Finnish portfolio hero remains present;
 - real far / middle / near viewport travel follows the original ordering;
 - the preserved original freezes under reduced motion;
 - the complete extended narrative renders without horizontal overflow or uncaught errors;
@@ -202,4 +202,4 @@ Open `http://127.0.0.1:4173`.
 
 ## Origin
 
-The repository began in September 2023 as a compact layered-forest parallax exercise with Finnish personal copy. The current version deliberately preserves that origin instead of hiding it, then demonstrates how the same idea can be expanded into a tested, accessible, inspectable motion system.
+The repository began in September 2023 as a compact layered-forest parallax exercise with Finnish personal copy. The current version preserves the original motion and visual composition, updates the copy for the present-day portfolio, and then demonstrates how the same idea can be expanded into a tested, accessible, inspectable motion system.
