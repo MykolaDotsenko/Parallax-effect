@@ -2,7 +2,7 @@
 
 [![Quality](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml/badge.svg)](https://github.com/MykolaDotsenko/Parallax-effect/actions/workflows/quality.yml)
 
-**The original 2023 parallax mechanics first, with current portfolio copy. The modern engineering extension below it.**
+**One continuous story: the original 2023 parallax first, then the same idea of clear layers carried into interface craft and software architecture.**
 
 [**Open the live experience →**](https://mykoladotsenko.github.io/Parallax-effect/) · [Architecture](./ARCHITECTURE.md) · [Motion system](./MOTION.md)
 
@@ -52,13 +52,13 @@ The old ScrollSmoother dependency is not reintroduced. Native browser scroll rem
 
 ## The extension
 
-Below the preserved original, Nordic Depths adds:
+Below the preserved original, the story continues instead of switching into a separate technical mode:
 
-- **Depth X-Ray** — separates the same cached forest strata and exposes the historical divisors `÷1.6`, `÷2.5`, and `÷5.7`.
+- **Layers** — separates the same cached forest strata and turns the visual lesson into a broader principle: clear responsibilities create understandable systems.
 - **Scene Compass** — native-anchor navigation through the extended narrative.
 - **Motion Lab** — controls only the modern extension; it intentionally does not mutate the preserved original.
 - **Adaptive motion profiles** — full, compact, and reduced.
-- **System scene** — makes the extension architecture visible in the product.
+- **Focus, Rhythm, Craft, Structure, Outcome** — carry the same layered thinking from visual hierarchy through interaction design into the actual architecture.
 - **Night + Aurora choreography** — secondary GSAP/ScrollTrigger motion.
 - **Accessibility** — reduced-motion, keyboard focus, forced-colors fallback, semantic reading order, and automated axe checks.
 - **Cross-browser regression coverage** — Chromium, Firefox, WebKit, and mobile Chromium.
