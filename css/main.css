@@ -200,9 +200,7 @@ a {
 
 .hero__layer {
   width: 100%;
-  top: -13%;
-  bottom: auto;
-  height: 126%;
+  height: 112%;
   max-width: none;
   object-fit: cover;
   object-position: center;
