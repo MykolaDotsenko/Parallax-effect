@@ -38,6 +38,7 @@ const assertions = [
   [/prefers-reduced-motion/.test(css), "reduced-motion CSS"],
   [/forced-colors/.test(css), "forced-colors CSS"],
   [!/^\s*(?:position|margin-top):\s*center\b/m.test(css), "no invalid legacy center declarations"],
+  [!html.includes("\\n"), "no literal escaped newlines in HTML"],
 ];
 
 for (const [condition, label] of assertions) {
