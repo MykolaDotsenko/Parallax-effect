@@ -34,15 +34,15 @@ const assertions = [
   [/name="description"/.test(html), "meta description"],
   [/rel="canonical"/.test(html), "canonical URL"],
   [/<main id="main-content">/.test(html), "semantic main"],
-  [(html.match(/<h1\\b/g) || []).length === 1, "exactly one h1"],
+  [(html.match(/<h1\b/g) || []).length === 1, "exactly one h1"],
   [/prefers-reduced-motion/.test(css), "reduced-motion CSS"],
   [/forced-colors/.test(css), "forced-colors CSS"],
-  [!/^\\s*(?:position|margin-top):\\s*center\\b/m.test(css), "no invalid legacy center declarations"],
+  [!/^\s*(?:position|margin-top):\s*center\b/m.test(css), "no invalid legacy center declarations"],
 ];
 
 for (const [condition, label] of assertions) {
   if (!condition) {
-    throw new Error(`Static check failed: ${label}`);
+    throw new Error(\`Static check failed: \${label}\`);
   }
 }
 
@@ -64,10 +64,10 @@ for (const file of imageFiles) {
 const qualityBudgetBytes = 6_500_000;
 if (imageBytes > qualityBudgetBytes) {
   throw new Error(
-    `Authored image payload ${imageBytes} exceeds quality budget ${qualityBudgetBytes} bytes`,
+    \`Authored image payload \${imageBytes} exceeds quality budget \${qualityBudgetBytes} bytes\`,
   );
 }
 
 process.stdout.write(
-  `Static checks passed. Original artwork payload: ${(imageBytes / 1_000_000).toFixed(2)} MB.\\n`,
+  \`Static checks passed. Original artwork payload: \${(imageBytes / 1_000_000).toFixed(2)} MB.\\n\`,
 );
