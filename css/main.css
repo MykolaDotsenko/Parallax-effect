@@ -334,7 +334,21 @@ a {
     #07110f;
 }
 
+.extension-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 42%;
+  background:
+    linear-gradient(180deg, rgb(1 1 1 / 24%), #07110f 94%),
+    url("../img/dungeon.jpg") center 58% / cover no-repeat;
+  opacity: 0.34;
+  pointer-events: none;
+}
+
 .extension-intro__inner {
+  position: relative;
+  z-index: 1;
   width: var(--container);
   margin-inline: auto;
   padding-block: clamp(100px, 14vw, 170px);
@@ -1878,4 +1892,38 @@ html[data-motion="reduced"] .system-connector {
     left: 8%;
     font-size: 0.72rem;
   }
+}
+
+
+.original-main-article__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(24px, 4vh, 42px);
+  color: #e7e7e0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.72;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.original-main-article__next:hover,
+.original-main-article__next:focus-visible {
+  opacity: 1;
+  transform: translateY(3px);
+}
+
+.original-main-article__next span:last-child {
+  color: var(--aurora-a);
+  font-size: 1rem;
+}
+
+#main-content > .scene .section-index,
+#main-content > .scene .eyebrow {
+  text-wrap: balance;
 }
