@@ -90,7 +90,7 @@ test("the preserved original flows into the Nordic Depths extension", async ({ p
   await page.goto("/");
   const extension = page.locator("#extension");
   await extension.scrollIntoViewIfNeeded();
-  await expect(page.getByRole("heading", { name: "The original stays. The system grows below." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The same idea grew with me." })).toBeVisible();
   await expect(page.locator("body")).toHaveClass(/extension-active/);
 });
 
@@ -138,7 +138,7 @@ test("system scene exposes the architecture as readable content", async ({ page 
   const system = page.locator("#system");
   await system.scrollIntoViewIfNeeded();
 
-  await expect(page.getByRole("heading", { name: "One model. Bounded adapters." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Simple parts. Clear boundaries." })).toBeVisible();
   await expect(system.locator("[data-system-node]")).toHaveCount(5);
   await expect(system.getByText("getMotionProfile()", { exact: true })).toBeVisible();
 });
