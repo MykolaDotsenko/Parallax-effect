@@ -1,69 +1,241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Nordic Depths is an accessible cinematic scroll experience exploring depth, rhythm, and motion with semantic HTML, modern CSS, Vanilla JavaScript, and GSAP."
+    />
+    <meta name="theme-color" content="#07110f" />
+    <link rel="canonical" href="https://mykoladotsenko.github.io/Parallax-effect/" />
 
-    <title>Document</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nordic Depths — Accessible Cinematic Scroll Experience" />
+    <meta
+      property="og:description"
+      content="A progressive-enhancement motion case study built with the native web platform and GSAP."
+    />
+    <meta property="og:url" content="https://mykoladotsenko.github.io/Parallax-effect/" />
+    <meta
+      property="og:image"
+      content="https://mykoladotsenko.github.io/Parallax-effect/img/layer-base.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>Nordic Depths — Accessible Cinematic Scroll Experience</title>
+
+    <link rel="preload" href="fonts/raleway-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/raleway-black.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="img/layer-base.png" as="image" fetchpriority="high" />
 
     <link rel="stylesheet" href="css/main.css" />
 
     <script src="libs/gsap/gsap.min.js" defer></script>
     <script src="libs/gsap/ScrollTrigger.min.js" defer></script>
-    <script src="libs/gsap/ScrollSmoother.min.js" defer></script>
-
-    <script src="js/app.js" defer></script>
+    <script type="module" src="js/app.js"></script>
   </head>
-  <body>
-    <div class="wrapper">
-      <div class="content">
-        <header class="main-header">
-          <div class="layers">
-            <div class="layer__header">
-              <div class="layers__caption">Tervetuloa kaikille</div>
-              <div class="layers__title">
-                Kerron sinulle <br />
-                vähän itsestäni.
-              </div>
-            </div>
-            <div
-              class="layer layers__base"
-              style="background-image: url(img/layer-base.png)"
-            ></div>
-            <div
-              class="layer layers__middle"
-              style="background-image: url(img/layer-middle.png)"
-            ></div>
-            <div
-              class="layer layers__front"
-              style="background-image: url(img/layer-front.png)"
-            ></div>
-          </div>
-        </header>
 
-        <article
-          class="main-article"
-          style="background-image: url(img/dungeon.jpg)"
-        >
-          <div class="main-article__content">
-            <h2 class="main-article__header">Nimeni on Mykola Dotsenko.</h2>
-            <p class="main-article__paragraph">
-              Olen itsevetoinen, intohimoinen ja motivoitunut etuosan
-              kehittäjäopiskelija. Ohjelmointi on intohimoni ja tämä jotain,
-              jonka haluaisin tehdä loppuelämäni ajan. Innokas osallistumaan
-              taitoihini ja luovuuteni dynaamisiin projekteihin, jotka ajavat
-              käyttökokemuksen rajoja. Matkani kehitysmaailmaan alkoi
-              tyydyttämättömällä uteliaisuudella ja sitoutumisella jatkuvaan
-              oppimiseen.
+  <body>
+    <a class="skip-link" href="#main-content">Skip to the experience</a>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="Nordic Depths — back to top">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span>Nordic Depths</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#experience">Experience</a>
+        <a href="#principles">Principles</a>
+        <a href="https://github.com/MykolaDotsenko/Parallax-effect">Source</a>
+      </nav>
+    </header>
+
+    <div id="top" class="page-shell">
+      <section class="hero scene" aria-labelledby="hero-title" data-scene="forest">
+        <div class="hero__layers" aria-hidden="true">
+          <div class="hero__light"></div>
+          <img
+            class="hero__layer hero__layer--base"
+            data-parallax-layer
+            data-depth="0.18"
+            src="img/layer-base.png"
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+          />
+          <img
+            class="hero__layer hero__layer--middle"
+            data-parallax-layer
+            data-depth="0.42"
+            src="img/layer-middle.png"
+            alt=""
+            decoding="async"
+          />
+          <img
+            class="hero__layer hero__layer--front"
+            data-parallax-layer
+            data-depth="0.78"
+            src="img/layer-front.png"
+            alt=""
+            decoding="async"
+          />
+          <img class="hero__ground" src="img/ground.png" alt="" decoding="async" />
+          <div class="hero__vignette"></div>
+        </div>
+
+        <div class="hero__content" data-hero-copy>
+          <p class="eyebrow">01 / Forest</p>
+          <h1 id="hero-title">Nordic<br />Depths</h1>
+          <p class="hero__lead">
+            An accessible cinematic study of depth, rhythm, and motion — built with the
+            native web platform and a deliberately small animation layer.
+          </p>
+        </div>
+
+        <a class="scroll-cue" href="#experience">
+          <span>Enter the mist</span>
+          <span class="scroll-cue__line" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <main id="main-content">
+        <section id="experience" class="scene scene--mist narrative" aria-labelledby="depth-title">
+          <div class="mist" aria-hidden="true">
+            <span class="mist__band mist__band--one"></span>
+            <span class="mist__band mist__band--two"></span>
+            <span class="mist__orb"></span>
+          </div>
+
+          <div class="narrative__grid">
+            <div class="section-index" data-reveal>02 / Depth</div>
+            <div class="narrative__copy">
+              <p class="kicker" data-reveal>Distance changes perception</p>
+              <h2 id="depth-title" data-reveal>Motion should create hierarchy, not noise.</h2>
+              <p data-reveal>
+                Near, middle, and far layers move with different intensity. The effect is
+                intentionally restrained: the story remains understandable even when every
+                animation is removed.
+              </p>
+            </div>
+
+            <dl class="signal-grid" aria-label="Engineering signals">
+              <div data-reveal>
+                <dt>0</dt>
+                <dd>runtime frameworks</dd>
+              </div>
+              <div data-reveal>
+                <dt>3</dt>
+                <dd>depth strata</dd>
+              </div>
+              <div data-reveal>
+                <dt>1</dt>
+                <dd>authoritative scroll source</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="scene scene--night narrative" aria-labelledby="rhythm-title" data-scene="night">
+          <img
+            class="night-image"
+            src="img/dungeon.jpg"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            data-night-image
+            aria-hidden="true"
+          />
+          <div class="night-overlay" aria-hidden="true"></div>
+
+          <div class="narrative__grid narrative__grid--night">
+            <div class="section-index" data-reveal>03 / Rhythm</div>
+            <div class="narrative__copy">
+              <p class="kicker" data-reveal>Follow the user</p>
+              <h2 id="rhythm-title" data-reveal>Good motion never fights the scroll.</h2>
+              <p data-reveal>
+                Native scrolling stays authoritative. GSAP orchestrates compositor-friendly
+                transforms and opacity, while reduced-motion users receive the same content
+                without spatial movement.
+              </p>
+            </div>
+
+            <div class="motion-note" data-reveal>
+              <span class="motion-note__line" aria-hidden="true"></span>
+              <p>
+                Motion is progressive enhancement. Content, navigation, and reading order do
+                not depend on JavaScript.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="principles" class="scene scene--principles" aria-labelledby="principles-title">
+          <div class="principles__heading">
+            <p class="section-index" data-reveal>04 / Principles</p>
+            <h2 id="principles-title" data-reveal>Every effect has a job.</h2>
+          </div>
+
+          <div class="principles-grid">
+            <article class="principle-card" data-reveal>
+              <span class="principle-card__number">01</span>
+              <h3>Proportional architecture</h3>
+              <p>
+                No React, Three.js, state library, or animation framework beyond the one tool
+                that solves the actual motion problem.
+              </p>
+            </article>
+
+            <article class="principle-card" data-reveal>
+              <span class="principle-card__number">02</span>
+              <h3>Adaptive motion</h3>
+              <p>
+                Fine-pointer enhancement, mobile-safe amplitudes, and a first-class
+                <code>prefers-reduced-motion</code> path.
+              </p>
+            </article>
+
+            <article class="principle-card" data-reveal>
+              <span class="principle-card__number">03</span>
+              <h3>High-fidelity imagery</h3>
+              <p>
+                Original visual assets are preserved at full quality. Performance work targets
+                loading behavior, code, and compositing instead of degrading the artwork.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="scene scene--aurora" aria-labelledby="aurora-title" data-scene="aurora">
+          <div class="aurora" aria-hidden="true">
+            <span class="aurora__ribbon aurora__ribbon--one"></span>
+            <span class="aurora__ribbon aurora__ribbon--two"></span>
+            <span class="aurora__ribbon aurora__ribbon--three"></span>
+            <span class="aurora__stars"></span>
+          </div>
+
+          <div class="aurora__content">
+            <p class="eyebrow" data-reveal>05 / Aurora</p>
+            <h2 id="aurora-title" data-reveal>Motion with purpose.</h2>
+            <p data-reveal>
+              Native web platform. Progressive enhancement. Accessible by default.
             </p>
+            <div class="cta-row" data-reveal>
+              <a class="button button--primary" href="https://github.com/MykolaDotsenko/Parallax-effect">
+                View source
+              </a>
+              <a class="button button--ghost" href="ARCHITECTURE.md">Engineering notes</a>
+            </div>
           </div>
-          <div class="copy">
-            Olen tiukasti varma, että minusta tulee yksi parhaista
-            opiskelijoista
-          </div>
-        </article>
-      </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>Nordic Depths · Interaction engineering case study</p>
+        <a href="#top">Back to top</a>
+      </footer>
     </div>
   </body>
 </html>
