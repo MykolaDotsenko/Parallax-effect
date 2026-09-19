@@ -45,7 +45,7 @@ Layers declare normalized depth values in HTML:
 <img data-parallax-layer data-depth="0.78" ... />
 ```
 
-The pure motion model clamps depth to `0..1` before calculating travel. Authored configuration therefore cannot accidentally create unbounded movement.
+The authored value is normalized **proximity**: `0` is far and `1` is near. The pure motion model clamps it to `0..1`, then calculates inverse counter-scroll compensation. Far layers receive more positive compensation and therefore move less in the viewport; near layers receive less compensation and move past the viewer faster. This preserves the perspective relationship of the original parallax implementation while keeping the amplitude bounded.
 
 ## Animation constraints
 

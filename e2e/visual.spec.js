@@ -68,6 +68,20 @@ test("capture visual preview", async ({ page }, testInfo) => {
     fullPage: false,
   });
 
+  if (isDesktop) {
+    const heroHeight = await page.locator("#forest").evaluate((hero) => hero.getBoundingClientRect().height);
+    await page.evaluate((distance) => {
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, distance);
+    }, heroHeight * 0.55);
+    await page.waitForTimeout(180);
+    await page.screenshot({
+      path: "visual-artifacts/desktop-hero-parallax-mid.png",
+      fullPage: false,
+    });
+    await page.evaluate(() => window.scrollTo(0, 0));
+  }
+
   await page.getByRole("button", { name: "Motion Lab" }).click();
   await page.waitForTimeout(180);
   await page.screenshot({
