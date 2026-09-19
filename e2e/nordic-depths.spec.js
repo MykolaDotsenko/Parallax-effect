@@ -63,7 +63,11 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
     (distance) => Math.abs(window.scrollY - distance) < 2,
     targetScroll,
   );
-  await page.waitForTimeout(80);
+  await page.waitForFunction(() => {
+    const transforms = Array.from(document.querySelectorAll("[data-parallax-layer]"))
+      .map((layer) => layer.style.transform);
+    return transforms.length === 3 && new Set(transforms).size === 3;
+  });
 
   const after = await sampleTops();
   const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
