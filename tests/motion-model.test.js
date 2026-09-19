@@ -64,4 +64,5 @@ test("motion preferences normalize unknown persisted values", () => {
     depthScale: 1.25,
   });
   assert.deepEqual(normalizeMotionPreferences(), DEFAULT_MOTION_PREFERENCES);
+  assert.deepEqual(normalizeMotionPreferences(null), DEFAULT_MOTION_PREFERENCES);
 });
