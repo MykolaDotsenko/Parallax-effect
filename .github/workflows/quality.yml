@@ -29,3 +29,11 @@ jobs:
       - run: npm install --ignore-scripts
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
+      - name: Upload visual preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nordic-depths-visual-preview
+          path: visual-artifacts/*.png
+          if-no-files-found: warn
+          retention-days: 7
