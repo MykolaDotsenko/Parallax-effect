@@ -5,7 +5,7 @@ export function initHeroParallax(profile) {
   const layers = Array.from(document.querySelectorAll("[data-parallax-layer]"));
 
   if (!hero || !layers.length || profile.mode === "reduced") {
-    layers.forEach((layer) => layer.style.setProperty("--parallax-y", "0%"));
+    layers.forEach((layer) => { layer.style.transform = "translate3d(0, 0%, 0) scale(1.03)"; });
     return () => {};
   }
 
@@ -24,7 +24,7 @@ export function initHeroParallax(profile) {
 
     layers.forEach((layer) => {
       const travel = getLayerTravel(layer.dataset.depth, profile.scrollIntensity);
-      layer.style.setProperty("--parallax-y", `${travel * progress}%`);
+      layer.style.transform = `translate3d(0, ${travel * progress}%, 0) scale(1.03)`;
     });
   };
 
@@ -47,6 +47,6 @@ export function initHeroParallax(profile) {
     window.removeEventListener("scroll", schedule);
     window.removeEventListener("resize", onResize);
     if (frame) window.cancelAnimationFrame(frame);
-    layers.forEach((layer) => layer.style.setProperty("--parallax-y", "0%"));
+    layers.forEach((layer) => { layer.style.transform = "translate3d(0, 0%, 0) scale(1.03)"; });
   };
 }
