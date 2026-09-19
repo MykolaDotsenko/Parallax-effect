@@ -55,9 +55,12 @@ export function initScrollAtmosphere(profile) {
   ScrollTrigger.addEventListener("scrollEnd", settle);
 
   return () => {
+    const targets = [mistOne, mistTwo, mistOrb, aurora].filter(Boolean);
+
     trigger.kill();
     ScrollTrigger.removeEventListener("scrollEnd", settle);
-    gsap.set([mistOne, mistTwo, mistOrb, aurora].filter(Boolean), {
+    gsap.killTweensOf(targets);
+    gsap.set(targets, {
       clearProps: "transform",
     });
   };
