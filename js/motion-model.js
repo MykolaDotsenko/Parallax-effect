@@ -54,5 +54,5 @@ export function getLayerTravel(depth, intensity = 1) {
 
   // Signed layer travel around a neutral middle plane.
   // Far layers drift down, near layers rise, increasing visible separation.
-  return (0.55 - safeDepth) * 22 * safeIntensity;
+  return (0.55 - safeDepth) * 30 * safeIntensity;
 }
