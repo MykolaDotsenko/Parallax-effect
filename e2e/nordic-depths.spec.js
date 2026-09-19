@@ -91,8 +91,8 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
   expect(delta[1]).toBeGreaterThan(delta[2]);
   expect(delta[0]).toBeGreaterThan(25);
   expect(delta[2]).toBeLessThan(-20);
-  expect(delta[0] - delta[2]).toBeGreaterThan(70);
-  expect(foregroundAfter - foregroundBefore).toBeLessThan(-25);
+  expect(delta[0] - delta[2]).toBeGreaterThan(120);
+  expect(foregroundAfter - foregroundBefore).toBeLessThan(-40);
 });
 
 test("desktop scene compass follows the current scene", async ({ page }, testInfo) => {

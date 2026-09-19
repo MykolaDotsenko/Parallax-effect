@@ -33,6 +33,8 @@ Rhythm / night
   ↓
 Engineering principles
   ↓
+System / live architecture
+  ↓
 Aurora / final statement
 ```
 

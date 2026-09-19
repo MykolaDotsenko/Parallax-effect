@@ -59,10 +59,10 @@ test("hero depth travel separates far and near planes around a neutral middle", 
 });
 
 test("signed layer travel clamps proximity and intensity", () => {
-  assert.ok(Math.abs(getLayerTravel(-1, 1) - 12.1) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(1, 1) + 9.9) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(0, 0.5) - 6.05) < 0.001);
-  assert.ok(Math.abs(getLayerTravel(0, 1.25) - 15.125) < 0.001);
+  assert.ok(Math.abs(getLayerTravel(-1, 1) - 16.5) < 0.001);
+  assert.ok(Math.abs(getLayerTravel(1, 1) + 13.5) < 0.001);
+  assert.ok(Math.abs(getLayerTravel(0, 0.5) - 8.25) < 0.001);
+  assert.ok(Math.abs(getLayerTravel(0, 1.25) - 20.625) < 0.001);
 });
 
 test("motion preferences normalize unknown persisted values", () => {
