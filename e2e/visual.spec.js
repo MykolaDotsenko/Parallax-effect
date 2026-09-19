@@ -1,40 +1,58 @@
 import { mkdir } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 
-async function waitForImages(page) {
-  await page.evaluate(async () => {
-    const images = Array.from(document.images);
-    await Promise.all(
-      images.map(async (image) => {
+async function waitForImages(page, selector = "body", { includeLazy = false } = {}) {
+  await page.locator(selector).evaluate(
+    async (root, options) => {
+      const images = Array.from(root.querySelectorAll("img")).filter(
+        (image) => options.includeLazy || image.loading !== "lazy",
+      );
+
+      const settleImage = async (image) => {
+        if (!image.complete) {
+          await Promise.race([
+            new Promise((resolve) => {
+              image.addEventListener("load", resolve, { once: true });
+              image.addEventListener("error", resolve, { once: true });
+            }),
+            new Promise((resolve) => window.setTimeout(resolve, 3000)),
+          ]);
+        }
+
         if (image.complete && image.naturalWidth > 0) {
           try {
             await image.decode();
           } catch {
             // A loaded image may still reject decode(); rendering can safely continue.
           }
-          return;
         }
+      };
 
-        await new Promise((resolve) => {
-          image.addEventListener("load", resolve, { once: true });
-          image.addEventListener("error", resolve, { once: true });
-        });
-
-        try {
-          await image.decode();
-        } catch {
-          // Decode failure is non-blocking because load/error has already settled.
-        }
-      }),
-    );
-  });
+      await Promise.all(images.map(settleImage));
+    },
+    { includeLazy },
+  );
 }
 
 async function captureScene(page, selector, path) {
   const scene = page.locator(selector);
   await scene.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(700);
+  await waitForImages(page, selector, { includeLazy: true });
+  await page.waitForTimeout(450);
   await page.screenshot({ path, fullPage: false });
+}
+
+async function warmFullPage(page) {
+  await page.evaluate(async () => {
+    const step = Math.max(320, Math.floor(window.innerHeight * 0.72));
+
+    for (let y = 0; y <= document.documentElement.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => window.setTimeout(resolve, 55));
+    }
+
+    window.scrollTo(0, 0);
+  });
 }
 
 test("capture visual preview", async ({ page }, testInfo) => {
@@ -64,8 +82,9 @@ test("capture visual preview", async ({ page }, testInfo) => {
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.reload();
-  await waitForImages(page);
-  await page.waitForTimeout(250);
+  await warmFullPage(page);
+  await waitForImages(page, "body", { includeLazy: true });
+  await page.waitForTimeout(200);
 
   await page.screenshot({
     path: `visual-artifacts/${prefix}-full-static.png`,
