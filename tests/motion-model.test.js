@@ -51,18 +51,18 @@ test("depth intensity is bounded", () => {
 });
 
 test("far layers counter-scroll more than near layers", () => {
-  assert.equal(getLayerTravel(0, 1), 12);
-  assert.equal(getLayerTravel(0.5, 1), 6);
+  assert.equal(getLayerTravel(0, 1), 60);
+  assert.equal(getLayerTravel(0.5, 1), 30);
   assert.equal(getLayerTravel(1, 1), 0);
   assert.ok(getLayerTravel(0.18, 1) > getLayerTravel(0.42, 1));
   assert.ok(getLayerTravel(0.42, 1) > getLayerTravel(0.78, 1));
 });
 
 test("layer travel clamps authored proximity and intensity", () => {
-  assert.equal(getLayerTravel(-1, 1), 12);
+  assert.equal(getLayerTravel(-1, 1), 60);
   assert.equal(getLayerTravel(4, 1), 0);
-  assert.equal(getLayerTravel(0, 0.5), 6);
-  assert.equal(getLayerTravel(0, 1.25), 15);
+  assert.equal(getLayerTravel(0, 0.5), 30);
+  assert.equal(getLayerTravel(0, 1.25), 75);
 });
 
 test("motion preferences normalize unknown persisted values", () => {
