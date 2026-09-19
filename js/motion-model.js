@@ -54,6 +54,6 @@ export function getLayerTravel(depth, intensity = 1) {
 
   // data-depth is proximity: 0 = far, 1 = near.
   // Far strata counter-scroll more, so they appear to move slower in the viewport.
-  return (1 - safeDepth) * 12 * safeIntensity;
+  return (1 - safeDepth) * 60 * safeIntensity;
 }
 
