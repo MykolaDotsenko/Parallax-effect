@@ -124,50 +124,58 @@
 
     <div id="top" class="page-shell">
       <section id="forest" class="hero scene" aria-labelledby="hero-title" data-scene="forest" data-scene-label="Forest">
-        <div class="hero__layers" aria-hidden="true">
-          <div class="hero__light"></div>
-          <img
-            class="hero__layer hero__layer--base"
-            data-parallax-layer
-            data-depth="0.18"
-            src="img/layer-base.png"
-            alt=""
-            fetchpriority="high"
-            decoding="async"
-          />
-          <img
-            class="hero__layer hero__layer--middle"
-            data-parallax-layer
-            data-depth="0.42"
-            src="img/layer-middle.png"
-            alt=""
-            decoding="async"
-          />
-          <img
-            class="hero__layer hero__layer--front"
-            data-parallax-layer
-            data-depth="0.78"
-            src="img/layer-front.png"
-            alt=""
-            decoding="async"
-          />
-          <img class="hero__ground" src="img/ground.png" alt="" decoding="async" />
-          <div class="hero__vignette"></div>
-        </div>
+        <div class="hero__viewport" data-hero-viewport>
+          <div class="hero__layers" aria-hidden="true">
+            <div class="hero__light"></div>
+            <img
+              class="hero__layer hero__layer--base"
+              data-parallax-layer
+              data-depth="0.18"
+              src="img/layer-base.png"
+              alt=""
+              fetchpriority="high"
+              decoding="async"
+            />
+            <img
+              class="hero__layer hero__layer--middle"
+              data-parallax-layer
+              data-depth="0.42"
+              src="img/layer-middle.png"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="hero__layer hero__layer--front"
+              data-parallax-layer
+              data-depth="0.78"
+              src="img/layer-front.png"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="hero__ground"
+              data-parallax-foreground
+              src="img/ground.png"
+              alt=""
+              decoding="async"
+            />
+            <div class="hero__vignette"></div>
+          </div>
 
-        <div class="hero__content" data-hero-copy>
-          <p class="eyebrow">01 / Forest</p>
-          <h1 id="hero-title">Nordic<br />Depths</h1>
-          <p class="hero__lead">
-            An accessible cinematic study of depth, rhythm, and motion — built with the
-            native web platform and a deliberately small animation layer.
-          </p>
-        </div>
+          <div class="hero__content" data-hero-copy>
+            <p class="eyebrow">01 / Forest</p>
+            <h1 id="hero-title">Nordic<br />Depths</h1>
+            <p class="hero__lead">
+              An accessible cinematic study of depth, rhythm, and motion — built with the
+              native web platform and a deliberately small animation layer.
+            </p>
+          </div>
 
-        <a class="scroll-cue" href="#xray">
-          <span>Reveal the layers</span>
-          <span class="scroll-cue__line" aria-hidden="true"></span>
-        </a>
+          <a class="scroll-cue" href="#xray" data-parallax-cue>
+            <span>Scroll to feel depth</span>
+            <span class="scroll-cue__line" aria-hidden="true"></span>
+          </a>
+        </div>
       </section>
 
       <main id="main-content">

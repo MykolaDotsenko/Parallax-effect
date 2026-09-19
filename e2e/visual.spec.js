@@ -69,12 +69,24 @@ test("capture visual preview", async ({ page }, testInfo) => {
   });
 
   if (isDesktop) {
-    const heroHeight = await page.locator("#forest").evaluate((hero) => hero.getBoundingClientRect().height);
+    const dimensions = await page.locator("#forest").evaluate((hero) => {
+      const viewport = hero.querySelector("[data-hero-viewport]");
+      return {
+        heroHeight: hero.getBoundingClientRect().height,
+        viewportHeight: viewport.getBoundingClientRect().height,
+      };
+    });
+    const targetScroll = (dimensions.heroHeight - dimensions.viewportHeight) * 0.78;
+
     await page.evaluate((distance) => {
       document.documentElement.style.scrollBehavior = "auto";
       window.scrollTo(0, distance);
-    }, heroHeight * 0.55);
-    await page.waitForTimeout(180);
+    }, targetScroll);
+    await page.waitForFunction(() => {
+      const transforms = Array.from(document.querySelectorAll("[data-parallax-layer]"))
+        .map((layer) => layer.style.transform);
+      return transforms.length === 3 && new Set(transforms).size === 3;
+    });
     await page.screenshot({
       path: "visual-artifacts/desktop-hero-parallax-mid.png",
       fullPage: false,

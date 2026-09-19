@@ -45,7 +45,7 @@ Layers declare normalized depth values in HTML:
 <img data-parallax-layer data-depth="0.78" ... />
 ```
 
-The authored value is normalized **proximity**: `0` is far and `1` is near. The pure motion model clamps it to `0..1`, then calculates inverse counter-scroll compensation. Far layers receive more positive compensation and therefore move less in the viewport; near layers receive less compensation and move past the viewer faster. This preserves the perspective relationship of the original parallax implementation while keeping the amplitude bounded.
+The authored value is normalized **proximity**: `0` is far and `1` is near. The pure motion model clamps it to `0..1`, then maps it around a neutral middle plane. Far layers receive positive vertical travel while near layers receive negative travel. During the short sticky hero runway this creates an intentionally obvious visual split without hijacking browser scroll. The existing `ground.png` is treated as a fourth, closer foreground plane and rises more aggressively than the three forest strata.
 
 ## Animation constraints
 
@@ -62,7 +62,7 @@ The browser remains the only scroll authority. This preserves predictable anchor
 
 ## Why GSAP
 
-The core forest parallax intentionally does **not** use ScrollTrigger. It uses native scroll position, one requestAnimationFrame-coalesced adapter, and the pure bounded depth model.
+The core forest parallax intentionally does **not** use ScrollTrigger. It uses native scroll position, one requestAnimationFrame-coalesced adapter, a short CSS-sticky viewport, and the pure bounded depth model. Desktop uses a longer runway; compact/coarse-pointer layouts shorten it and already receive the lower profile intensity.
 
 ScrollTrigger is reserved for secondary choreography where sequencing provides real value:
 

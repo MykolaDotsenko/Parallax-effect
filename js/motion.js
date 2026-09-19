@@ -7,23 +7,6 @@ export function initScrollMotion(profile) {
 
   gsap.registerPlugin(ScrollTrigger);
   const context = gsap.context(() => {
-    const hero = document.querySelector('[data-scene="forest"]');
-
-    const heroCopy = document.querySelector("[data-hero-copy]");
-    if (heroCopy) {
-      gsap.to(heroCopy, {
-        yPercent: 14 * profile.scrollIntensity,
-        autoAlpha: 0.2,
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "80% top",
-          scrub: true,
-        },
-      });
-    }
-
     const xray = document.querySelector('[data-scene="xray"]');
     if (xray) {
       const far = xray.querySelector('[data-xray-layer="far"]');

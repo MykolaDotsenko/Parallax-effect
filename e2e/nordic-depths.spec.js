@@ -52,9 +52,20 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
     );
 
   const before = await sampleTops();
-  const heroHeight = await page.locator("#forest").evaluate((hero) => hero.getBoundingClientRect().height);
+  const foregroundBefore = await page.locator("[data-parallax-foreground]").evaluate(
+    (layer) => layer.getBoundingClientRect().top,
+  );
+  const dimensions = await page.locator("#forest").evaluate((hero) => {
+    const viewport = hero.querySelector("[data-hero-viewport]");
+    return {
+      heroHeight: hero.getBoundingClientRect().height,
+      viewportHeight: viewport.getBoundingClientRect().height,
+    };
+  });
 
-  const targetScroll = heroHeight * 0.55;
+  expect(dimensions.heroHeight).toBeGreaterThan(dimensions.viewportHeight * 1.2);
+
+  const targetScroll = (dimensions.heroHeight - dimensions.viewportHeight) * 0.85;
   await page.evaluate((distance) => {
     document.documentElement.style.scrollBehavior = "auto";
     window.scrollTo(0, distance);
@@ -70,12 +81,18 @@ test("forest parallax preserves correct depth physics", async ({ page }, testInf
   });
 
   const after = await sampleTops();
-  const viewportTravel = after.map((top, index) => Math.abs(top - before[index]));
+  const foregroundAfter = await page.locator("[data-parallax-foreground]").evaluate(
+    (layer) => layer.getBoundingClientRect().top,
+  );
+  const delta = after.map((top, index) => top - before[index]);
 
-  expect(viewportTravel).toHaveLength(3);
-  expect(viewportTravel[0]).toBeLessThan(viewportTravel[1]);
-  expect(viewportTravel[1]).toBeLessThan(viewportTravel[2]);
-  expect(viewportTravel[2] - viewportTravel[0]).toBeGreaterThan(20);
+  expect(delta).toHaveLength(3);
+  expect(delta[0]).toBeGreaterThan(delta[1]);
+  expect(delta[1]).toBeGreaterThan(delta[2]);
+  expect(delta[0]).toBeGreaterThan(25);
+  expect(delta[2]).toBeLessThan(-20);
+  expect(delta[0] - delta[2]).toBeGreaterThan(70);
+  expect(foregroundAfter - foregroundBefore).toBeLessThan(-25);
 });
 
 test("desktop scene compass follows the current scene", async ({ page }, testInfo) => {
@@ -91,7 +108,7 @@ test("desktop scene compass follows the current scene", async ({ page }, testInf
 
 test("hero entry cue reaches the X-Ray scene", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Reveal the layers" }).click();
+  await page.getByRole("link", { name: "Scroll to feel depth" }).click();
   await expect(page.locator("#xray")).toBeInViewport();
 });
 

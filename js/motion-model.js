@@ -52,8 +52,7 @@ export function getLayerTravel(depth, intensity = 1) {
   const safeDepth = clamp(Number(depth) || 0, 0, 1);
   const safeIntensity = clamp(Number(intensity) || 0, 0, 1.25);
 
-  // data-depth is proximity: 0 = far, 1 = near.
-  // Far strata counter-scroll more, so they appear to move slower in the viewport.
-  return (1 - safeDepth) * 60 * safeIntensity;
+  // Signed layer travel around a neutral middle plane.
+  // Far layers drift down, near layers rise, increasing visible separation.
+  return (0.55 - safeDepth) * 22 * safeIntensity;
 }
-
